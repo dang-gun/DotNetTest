@@ -34,13 +34,12 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
             //my imagination
             Console.WriteLine("---- [0-2] my imagination ----");
             Console.WriteLine("typeSelect == (ByteArrayType)byteOri : Exception");
-            Console.WriteLine("(short)typeSelect == (ByteArrayType)BitConverter.ToInt16(byteOri) : Exception");
-            Console.WriteLine("(byte[])typeSelect == byteOri : Exception");
-            Console.Write("BitConverter.GetBytes((int)typeSelect) == byteOri : ");
-            Console.WriteLine(BitConverter.GetBytes((short)typeSelect) == byteOri);
+            Console.Write("(short)typeSelect == BitConverter.ToInt16(byteOri) : ");
+            Console.WriteLine((short)typeSelect == BitConverter.ToInt16(byteOri));
             Console.Write("byteOri.Equals(BitConverter.GetBytes((short)typeSelect)) : ");
             Console.WriteLine(byteOri.Equals(BitConverter.GetBytes((short)typeSelect)));
             Console.WriteLine(" ");
+            Console.WriteLine();
             
 
             //want result
@@ -56,8 +55,19 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
             Console.WriteLine(" ");
 
 
-            //want result
-            Console.WriteLine("---- [1] BitConverter.ToInt ----");
+            Console.WriteLine("---- [1] Enum.Parse ----");
+            typeTemp = ByteArrayType.None;
+            //https://stackoverflow.com/questions/29482/how-can-i-cast-int-to-enum
+            typeTemp = (ByteArrayType)Enum
+                            .Parse(typeof(ByteArrayType)
+                                , ASCIIEncoding.Default.GetString(byteOri));
+            Console.Write("typeSelect == typeTemp : ");
+            Console.WriteLine(typeSelect == typeTemp);
+            Console.WriteLine(" ");
+
+
+            //BitConverter.ToInt
+            Console.WriteLine("---- [2] BitConverter.ToInt ----");
             typeTemp = ByteArrayType.None;
             typeTemp = (ByteArrayType)BitConverter.ToInt16(byteOri);
             Console.Write("typeSelect == typeTemp : ");
@@ -67,7 +77,7 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
 
 
             //https://social.msdn.microsoft.com/Forums/vstudio/en-US/1f87b2c5-36c4-4d0c-bea7-c2a54ee1e628/enum-to-byte-array?forum=csharpgeneral
-            Console.WriteLine("---- [2-1] BitConverter.GetBytes ----");
+            Console.WriteLine("---- [3-1] BitConverter.GetBytes ----");
             typeTemp = ByteArrayType.None;
             byte[] byteSelect1 = BitConverter.GetBytes((Int16)typeSelect).Take(2).ToArray();
             Console.Write("byteSelect1 : ");
@@ -76,7 +86,7 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
             Console.WriteLine(byteOri == byteSelect1);
             Console.WriteLine(" ");
 
-            Console.WriteLine("---- [2-2] BitConverter.GetBytes ----");
+            Console.WriteLine("---- [3-2] BitConverter.GetBytes ----");
             typeTemp = ByteArrayType.None;
             byte[] byteSelect2 = new byte[] { byteSelect1[1], byteSelect1[0] };
             Console.Write("byteSelect2 : ");
@@ -85,7 +95,7 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
             Console.WriteLine(byteOri == byteSelect2);
             Console.WriteLine(" ");
 
-            Console.WriteLine("---- [2-3] BitConverter.GetBytes ----");
+            Console.WriteLine("---- [3-3] BitConverter.GetBytes ----");
             typeTemp = ByteArrayType.None;
             Console.Write("byteSelect2 : ");
             Console.WriteLine(byteSelect2[0] + " " + byteSelect2[1]);
@@ -93,8 +103,7 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
             Console.WriteLine(byteOri.Equals(byteSelect2));
             Console.WriteLine(" ");
 
-
-
+            
 
 
             Console.ReadLine();
