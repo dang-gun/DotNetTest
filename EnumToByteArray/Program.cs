@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.Globalization;
 using System.Text;
 
@@ -103,8 +104,17 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
             Console.WriteLine(byteOri.Equals(byteSelect2));
             Console.WriteLine(" ");
 
-            
 
+            //https://stackoverflow.com/questions/71361555/is-there-a-better-way-to-turn-an-enum-into-a-byte-array-in-c
+            //@JeroenMostert
+            Console.WriteLine("---- [4] BinaryPrimitives.ReadUInt16BigEndian ----");
+            typeTemp = ByteArrayType.None;
+            typeTemp = (ByteArrayType)BinaryPrimitives.ReadUInt16BigEndian(byteOri);
+            //BinaryPrimitives
+            //    .WriteUInt16BigEndian(buffer, (UInt16)ByteArrayType.OK);
+            //(ByteArrayType)BinaryPrimitives.ReadUInt16BigEndian(byteOri)
+            Console.WriteLine(typeTemp == typeSelect);
+            Console.WriteLine(" ");
 
             Console.ReadLine();
         }
