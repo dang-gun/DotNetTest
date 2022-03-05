@@ -113,6 +113,7 @@ namespace EnumToByteArray // Note: actual namespace depends on the project name.
             //BinaryPrimitives
             //    .WriteUInt16BigEndian(buffer, (UInt16)ByteArrayType.OK);
             //(ByteArrayType)BinaryPrimitives.ReadUInt16BigEndian(byteOri)
+            Console.Write("typeTemp == typeSelect : ");
             Console.WriteLine(typeTemp == typeSelect);
             Console.WriteLine(" ");
 
