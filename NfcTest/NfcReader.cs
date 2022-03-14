@@ -1,4 +1,8 @@
-﻿using PCSC;
+﻿using NfcTest.CardInfo;
+using NfcTest.DeviceInfo;
+using NfcTest.PcscSharpAssists;
+using PCSC;
+using PCSC.Exceptions;
 using PCSC.Iso7816;
 using System;
 using System.Collections.Generic;
@@ -11,9 +15,32 @@ namespace NfcTest
 	public class NfcReader : IDisposable
 	{
 		/// <summary>
+		/// 사용할 디바이스의 정보
+		/// </summary>
+		public DeviceInfoInterface DeviceInfo { get; private set; }
+
+		/// <summary>
+		/// 작성에 사용 할 카드의 정보
+		/// </summary>
+		public CardInfoInterface CardInfo { get; private set; }
+
+		/// <summary>
 		/// 선택된 이름
 		/// </summary>
 		public string ReaderName { get; private set; } = string.Empty;
+
+		/// <summary>
+		/// 카드 리더기를 초기화 한다.
+		/// </summary>
+		/// <param name="deviceInfoInterface">초기화에 사용할 디바이스 정보</param>
+		/// <param name="cardInfoInterface">초기화에 사용할 카드 정보</param>
+		public NfcReader(
+				DeviceInfoInterface deviceInfoInterface
+				, CardInfoInterface cardInfoInterface)
+		{
+			this.DeviceInfo = deviceInfoInterface;
+			this.CardInfo = cardInfoInterface;
+		}
 
 		/// <summary>
 		/// 파괴자
@@ -54,6 +81,19 @@ namespace NfcTest
 			using (ISCardContext Context1 
 						= ContextFactory.Instance.Establish(SCardScope.System))
 			{
+				try
+				{
+
+				}
+				catch (PCSCException exPcsc)
+				{
+					switch (exPcsc.SCardError)
+					{
+						case SCardError.RemovedCard:
+							break;
+					}
+					
+				}
 				using (var reader = Context1.ConnectReader(
 										this.ReaderName
 										, SCardShareMode.Shared
@@ -76,6 +116,8 @@ namespace NfcTest
 		{
 			this.ReaderName = sReaderName;
 		}
+
+
 
 		private const byte MSB = 0x00;
 		private const byte LSB = 0x08;

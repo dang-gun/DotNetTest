@@ -1,4 +1,6 @@
-﻿using PCSC;
+﻿using NfcTest.DeviceInfo;
+using NfcTest.PcscSharpAssists;
+using PCSC;
 using PCSC.Iso7816;
 using PCSC.Monitoring;
 using System;
@@ -16,19 +18,29 @@ namespace NfcTest
 	public partial class Form1 : Form
 	{
 		NfcReader m_nfc;
+		NfcReaderTest m_nfcTest;
 
 		IMonitorFactory monitorFactory;
 		ISCardMonitor monitor;
 
 		private const byte MSB = 0x00;
-		private const byte LSB = 0x0A;
+		private const byte LSB = 0x08;
 
 
 		public Form1()
 		{
 			InitializeComponent();
 
-			this.m_nfc = new NfcReader();
+			//장비를 설정한다.
+			this.m_nfc 
+				= new NfcReader(
+						new ARC122U_Series()
+						, new Mifare1k());
+			//
+			this.m_nfcTest
+				= new NfcReaderTest(
+						new ARC122U_Series()
+						, new Mifare1k());
 
 			//인스턴스 생성
 			monitorFactory = MonitorFactory.Instance;
@@ -40,6 +52,7 @@ namespace NfcTest
 			btnCardListRefresh_Click(null, null);
 		}
 
+		#region 폼 관련
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			this.m_nfc.Dispose();
@@ -77,27 +90,144 @@ namespace NfcTest
 			this.listLog.Items.Add(item);
 			this.listLog.Items[this.listLog.Items.Count - 1].EnsureVisible();
 		}
+		#endregion
+
+		#region Device Test
+		
+		/// <summary>
+		/// 키 로드 테스트
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnLoadKey_Click(object sender, EventArgs e)
+		{
+			if (true == this.m_nfcTest.CardIn())
+			{
+				byte[] byteLoadKeyData = new byte[] { };
+				this.m_nfcTest.LoadKey(out byteLoadKeyData);
+
+				if (true == this.m_nfcTest.LoadKey(out byteLoadKeyData))
+				{
+					this.LogAdd(BitConverter.ToString(byteLoadKeyData.ToArray()));
+				}
+				else
+				{
+					this.LogAdd("키 로드 실패");
+				}
+			}
+			else
+			{
+				this.LogAdd("카드를 읽을 수 없습니다.");
+			}
+		}
+
+		/// <summary>
+		/// 블록 권한 테스트
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnAuthBlock_Click(object sender, EventArgs e)
+		{
+			byte byteBlockNumber = 0x08;
+
+			if (true == this.m_nfcTest.CardIn())
+			{
+				if (true == this.m_nfcTest.AuthBlock(byteBlockNumber))
+				{
+					this.LogAdd(String.Format("블록 권한 얻기 성공 : {0:X2}", byteBlockNumber));
+				}
+				else
+				{
+					this.LogAdd(">>> 블록 권한 얻기 실패");
+				}
+			}
+			else
+			{
+				this.LogAdd("카드를 읽을 수 없습니다.");
+			}
+		}
+
+		/// <summary>
+		/// 블록 읽기 테스트
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnReadBinaryBlocks_Click(object sender, EventArgs e)
+		{
+			byte byteBlockNumber = 0x08;
+
+			if (true == this.m_nfcTest.CardIn())
+			{
+				byte[] byteLoadKeyData = new byte[] { };
+
+				if (true == this.m_nfcTest.ReadBinaryBlocks(byteBlockNumber, out byteLoadKeyData))
+				{
+					this.LogAdd(String.Format("--- 블록 읽기({0:X2}) ---", byteBlockNumber));
+					this.LogAdd(BitConverter.ToString(byteLoadKeyData.ToArray()));
+				}
+				else
+				{
+					this.LogAdd("블록 읽기 실패 ");
+				}
+			}
+			else
+			{
+				this.LogAdd("카드를 읽을 수 없습니다.");
+			}
+		}
+
+
+		/// <summary>
+		/// 블록 쓰기 테스트
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnUpdateBinaryBlocks_Click(object sender, EventArgs e)
+		{
+			byte byteBlockNumber = 0x08;
+
+			if (true == this.m_nfcTest.CardIn())
+			{
+				byte[] byteLoadKeyData = new byte[] { 0xFF, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00 };
+
+				if (true == this.m_nfcTest.UpdateBinaryBlocks(byteBlockNumber, byteLoadKeyData))
+				{
+					this.LogAdd(String.Format("--- 블록 쓰기({0:X2}) --- 성공", byteBlockNumber));					
+				}
+				else
+				{
+					this.LogAdd("블록 쓰기 실패 ");
+				}
+			}
+			else
+			{
+				this.LogAdd("카드를 읽을 수 없습니다.");
+			}
+		}
+		#endregion
 
 
 		private void comboCardList_SelectedIndexChanged(object sender, EventArgs e)
 		{
 
 			this.m_nfc.ReaderNameSet(comboCardList.Text);
+			this.m_nfcTest.ReaderNameSet(comboCardList.Text);
 
 			if (string.Empty != comboCardList.Text)
 			{
 				//모니터링 시작
 				this.monitor.Start(this.m_nfc.ReaderName);
 				//리더기 정보 출력
-				this.btnReadReaderAttr_Click(null, null);
+				//this.btnReadReaderAttr_Click(null, null);
 			}
 			else
 			{
 				this.m_nfc.ReaderNameSet(string.Empty);
 				this.LogAdd("please Select Reader");
 			}
-			
+
 		}
+
 
 		private void Monitor_StatusChanged(object sender, StatusChangeEventArgs e)
 		{
@@ -398,8 +528,13 @@ namespace NfcTest
 			return byteCut;
 		}
 
+
+
+
 		#region Block Command
 
 		#endregion
+
+		
 	}
 }

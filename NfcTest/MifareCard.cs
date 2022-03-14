@@ -1,21 +1,11 @@
-﻿using PCSC;
+﻿using NfcTest.PcscSharpAssists;
+using PCSC;
 using PCSC.Iso7816;
 using System;
 using System.Diagnostics;
 
 namespace NfcTest
 {
-    public enum KeyStructure : byte
-    {
-        VolatileMemory = 0x00,
-        NonVolatileMemory = 0x20
-    }
-
-    public enum KeyType : byte
-    {
-        KeyA = 0x60,
-        KeyB = 0x61
-    }
 
     public class GeneralAuthenticate
     {
@@ -58,8 +48,17 @@ namespace NfcTest
                     : null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyStructure"></param>
+        /// <param name="keyNumber"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool LoadKey(KeyStructure keyStructure, byte keyNumber, byte[] key)
         {
+            //ACR122U 시리즈는 Key Structure를 0x00만 사용할수 있다.
+
             var loadKeyCmd = new CommandApdu(IsoCase.Case3Short, SCardProtocol.Any)
             {
                 CLA = CUSTOM_CLA,
