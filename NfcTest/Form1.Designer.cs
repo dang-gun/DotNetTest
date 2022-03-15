@@ -34,28 +34,24 @@
 			this.listLog = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-			this.btnSendApdu = new System.Windows.Forms.Button();
-			this.btnReadReaderAttr = new System.Windows.Forms.Button();
 			this.btnGetData = new System.Windows.Forms.Button();
 			this.btnSetData = new System.Windows.Forms.Button();
-			this.btnAuthBlock1 = new System.Windows.Forms.Button();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.txtUpdateBinary = new System.Windows.Forms.TextBox();
-			this.btnBlock0UpdateBinary = new System.Windows.Forms.Button();
-			this.btnBlock0ReadBinary = new System.Windows.Forms.Button();
 			this.labInfo = new System.Windows.Forms.Label();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.btnBlockAuth = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.numericBlockNumber = new System.Windows.Forms.NumericUpDown();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.btnGetStatus = new System.Windows.Forms.Button();
+			this.btnGetArt = new System.Windows.Forms.Button();
+			this.btnUpdateBinaryBlocks = new System.Windows.Forms.Button();
 			this.btnReadBinaryBlocks = new System.Windows.Forms.Button();
 			this.btnAuthBlock = new System.Windows.Forms.Button();
 			this.btnLoadKey = new System.Windows.Forms.Button();
-			this.btnUpdateBinaryBlocks = new System.Windows.Forms.Button();
-			this.groupBox1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.listviewDevice = new System.Windows.Forms.ListView();
+			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+			this.listviewCard = new System.Windows.Forms.ListView();
+			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+			((System.ComponentModel.ISupportInitialize)(this.numericBlockNumber)).BeginInit();
 			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -110,29 +106,9 @@
 			this.columnHeader2.Text = "Contents";
 			this.columnHeader2.Width = 580;
 			// 
-			// btnSendApdu
-			// 
-			this.btnSendApdu.Location = new System.Drawing.Point(12, 50);
-			this.btnSendApdu.Name = "btnSendApdu";
-			this.btnSendApdu.Size = new System.Drawing.Size(160, 23);
-			this.btnSendApdu.TabIndex = 4;
-			this.btnSendApdu.Text = "Send ISO7816 APDUs";
-			this.btnSendApdu.UseVisualStyleBackColor = true;
-			this.btnSendApdu.Click += new System.EventHandler(this.btnSendApdu_Click);
-			// 
-			// btnReadReaderAttr
-			// 
-			this.btnReadReaderAttr.Location = new System.Drawing.Point(12, 79);
-			this.btnReadReaderAttr.Name = "btnReadReaderAttr";
-			this.btnReadReaderAttr.Size = new System.Drawing.Size(160, 23);
-			this.btnReadReaderAttr.TabIndex = 5;
-			this.btnReadReaderAttr.Text = "Read reader attributes";
-			this.btnReadReaderAttr.UseVisualStyleBackColor = true;
-			this.btnReadReaderAttr.Click += new System.EventHandler(this.btnReadReaderAttr_Click);
-			// 
 			// btnGetData
 			// 
-			this.btnGetData.Location = new System.Drawing.Point(12, 108);
+			this.btnGetData.Location = new System.Drawing.Point(537, 162);
 			this.btnGetData.Name = "btnGetData";
 			this.btnGetData.Size = new System.Drawing.Size(160, 23);
 			this.btnGetData.TabIndex = 6;
@@ -142,7 +118,7 @@
 			// 
 			// btnSetData
 			// 
-			this.btnSetData.Location = new System.Drawing.Point(12, 137);
+			this.btnSetData.Location = new System.Drawing.Point(537, 191);
 			this.btnSetData.Name = "btnSetData";
 			this.btnSetData.Size = new System.Drawing.Size(160, 23);
 			this.btnSetData.TabIndex = 7;
@@ -150,117 +126,94 @@
 			this.btnSetData.UseVisualStyleBackColor = true;
 			this.btnSetData.Click += new System.EventHandler(this.btnSetData_Click);
 			// 
-			// btnAuthBlock1
-			// 
-			this.btnAuthBlock1.Location = new System.Drawing.Point(6, 29);
-			this.btnAuthBlock1.Name = "btnAuthBlock1";
-			this.btnAuthBlock1.Size = new System.Drawing.Size(160, 23);
-			this.btnAuthBlock1.TabIndex = 8;
-			this.btnAuthBlock1.Text = "Block 0 - Auth ";
-			this.btnAuthBlock1.UseVisualStyleBackColor = true;
-			this.btnAuthBlock1.Click += new System.EventHandler(this.btnAuthBlock1_Click);
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.txtUpdateBinary);
-			this.groupBox1.Controls.Add(this.btnBlock0UpdateBinary);
-			this.groupBox1.Controls.Add(this.btnBlock0ReadBinary);
-			this.groupBox1.Controls.Add(this.btnAuthBlock1);
-			this.groupBox1.Location = new System.Drawing.Point(366, 238);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(182, 172);
-			this.groupBox1.TabIndex = 9;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Custom Command";
-			// 
 			// txtUpdateBinary
 			// 
-			this.txtUpdateBinary.Location = new System.Drawing.Point(6, 116);
+			this.txtUpdateBinary.Location = new System.Drawing.Point(172, 138);
 			this.txtUpdateBinary.Name = "txtUpdateBinary";
 			this.txtUpdateBinary.Size = new System.Drawing.Size(160, 23);
 			this.txtUpdateBinary.TabIndex = 11;
 			// 
-			// btnBlock0UpdateBinary
-			// 
-			this.btnBlock0UpdateBinary.Location = new System.Drawing.Point(6, 87);
-			this.btnBlock0UpdateBinary.Name = "btnBlock0UpdateBinary";
-			this.btnBlock0UpdateBinary.Size = new System.Drawing.Size(160, 23);
-			this.btnBlock0UpdateBinary.TabIndex = 10;
-			this.btnBlock0UpdateBinary.Text = "Block 0 - Update Binary";
-			this.btnBlock0UpdateBinary.UseVisualStyleBackColor = true;
-			this.btnBlock0UpdateBinary.Click += new System.EventHandler(this.btnBlock0UpdateBinary_Click);
-			// 
-			// btnBlock0ReadBinary
-			// 
-			this.btnBlock0ReadBinary.Location = new System.Drawing.Point(6, 58);
-			this.btnBlock0ReadBinary.Name = "btnBlock0ReadBinary";
-			this.btnBlock0ReadBinary.Size = new System.Drawing.Size(160, 23);
-			this.btnBlock0ReadBinary.TabIndex = 9;
-			this.btnBlock0ReadBinary.Text = "Block 0 - Read Binary";
-			this.btnBlock0ReadBinary.UseVisualStyleBackColor = true;
-			this.btnBlock0ReadBinary.Click += new System.EventHandler(this.btnBlock0ReadBinary_Click);
-			// 
 			// labInfo
 			// 
-			this.labInfo.Location = new System.Drawing.Point(597, 36);
+			this.labInfo.Location = new System.Drawing.Point(6, 109);
 			this.labInfo.Name = "labInfo";
-			this.labInfo.Size = new System.Drawing.Size(100, 189);
+			this.labInfo.Size = new System.Drawing.Size(160, 52);
 			this.labInfo.TabIndex = 10;
 			this.labInfo.Text = "Card List";
 			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.btnBlockAuth);
-			this.groupBox2.Controls.Add(this.label2);
-			this.groupBox2.Controls.Add(this.numericUpDown1);
-			this.groupBox2.Location = new System.Drawing.Point(366, 50);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(174, 172);
-			this.groupBox2.TabIndex = 11;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Block Command";
-			// 
-			// btnBlockAuth
-			// 
-			this.btnBlockAuth.Location = new System.Drawing.Point(6, 51);
-			this.btnBlockAuth.Name = "btnBlockAuth";
-			this.btnBlockAuth.Size = new System.Drawing.Size(160, 23);
-			this.btnBlockAuth.TabIndex = 3;
-			this.btnBlockAuth.Text = "Block Auth";
-			this.btnBlockAuth.UseVisualStyleBackColor = true;
-			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 22);
+			this.label2.Location = new System.Drawing.Point(172, 24);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(100, 23);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Use Block";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// numericUpDown1
+			// numericBlockNumber
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(112, 22);
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(54, 23);
-			this.numericUpDown1.TabIndex = 0;
+			this.numericBlockNumber.Location = new System.Drawing.Point(278, 24);
+			this.numericBlockNumber.Name = "numericBlockNumber";
+			this.numericBlockNumber.Size = new System.Drawing.Size(54, 23);
+			this.numericBlockNumber.TabIndex = 0;
+			this.numericBlockNumber.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.btnGetStatus);
+			this.groupBox3.Controls.Add(this.label2);
+			this.groupBox3.Controls.Add(this.labInfo);
+			this.groupBox3.Controls.Add(this.btnGetArt);
+			this.groupBox3.Controls.Add(this.numericBlockNumber);
+			this.groupBox3.Controls.Add(this.txtUpdateBinary);
 			this.groupBox3.Controls.Add(this.btnUpdateBinaryBlocks);
 			this.groupBox3.Controls.Add(this.btnReadBinaryBlocks);
 			this.groupBox3.Controls.Add(this.btnAuthBlock);
 			this.groupBox3.Controls.Add(this.btnLoadKey);
-			this.groupBox3.Location = new System.Drawing.Point(178, 50);
+			this.groupBox3.Location = new System.Drawing.Point(195, 39);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(172, 172);
+			this.groupBox3.Size = new System.Drawing.Size(336, 175);
 			this.groupBox3.TabIndex = 12;
 			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "Device Test";
+			this.groupBox3.Text = "Card Test";
+			// 
+			// btnGetStatus
+			// 
+			this.btnGetStatus.Location = new System.Drawing.Point(6, 22);
+			this.btnGetStatus.Name = "btnGetStatus";
+			this.btnGetStatus.Size = new System.Drawing.Size(160, 23);
+			this.btnGetStatus.TabIndex = 14;
+			this.btnGetStatus.Text = "Get Status";
+			this.btnGetStatus.UseVisualStyleBackColor = true;
+			this.btnGetStatus.Click += new System.EventHandler(this.btnGetStatus_Click);
+			// 
+			// btnGetArt
+			// 
+			this.btnGetArt.Location = new System.Drawing.Point(6, 51);
+			this.btnGetArt.Name = "btnGetArt";
+			this.btnGetArt.Size = new System.Drawing.Size(160, 23);
+			this.btnGetArt.TabIndex = 13;
+			this.btnGetArt.Text = "Get ATR";
+			this.btnGetArt.UseVisualStyleBackColor = true;
+			this.btnGetArt.Click += new System.EventHandler(this.btnGetArt_Click);
+			// 
+			// btnUpdateBinaryBlocks
+			// 
+			this.btnUpdateBinaryBlocks.Location = new System.Drawing.Point(172, 109);
+			this.btnUpdateBinaryBlocks.Name = "btnUpdateBinaryBlocks";
+			this.btnUpdateBinaryBlocks.Size = new System.Drawing.Size(160, 23);
+			this.btnUpdateBinaryBlocks.TabIndex = 3;
+			this.btnUpdateBinaryBlocks.Text = "Update Binary Blocks";
+			this.btnUpdateBinaryBlocks.UseVisualStyleBackColor = true;
+			this.btnUpdateBinaryBlocks.Click += new System.EventHandler(this.btnUpdateBinaryBlocks_Click);
 			// 
 			// btnReadBinaryBlocks
 			// 
-			this.btnReadBinaryBlocks.Location = new System.Drawing.Point(6, 80);
+			this.btnReadBinaryBlocks.Location = new System.Drawing.Point(172, 80);
 			this.btnReadBinaryBlocks.Name = "btnReadBinaryBlocks";
 			this.btnReadBinaryBlocks.Size = new System.Drawing.Size(160, 23);
 			this.btnReadBinaryBlocks.TabIndex = 2;
@@ -270,7 +223,7 @@
 			// 
 			// btnAuthBlock
 			// 
-			this.btnAuthBlock.Location = new System.Drawing.Point(6, 51);
+			this.btnAuthBlock.Location = new System.Drawing.Point(172, 51);
 			this.btnAuthBlock.Name = "btnAuthBlock";
 			this.btnAuthBlock.Size = new System.Drawing.Size(160, 23);
 			this.btnAuthBlock.TabIndex = 1;
@@ -280,7 +233,7 @@
 			// 
 			// btnLoadKey
 			// 
-			this.btnLoadKey.Location = new System.Drawing.Point(6, 22);
+			this.btnLoadKey.Location = new System.Drawing.Point(6, 80);
 			this.btnLoadKey.Name = "btnLoadKey";
 			this.btnLoadKey.Size = new System.Drawing.Size(160, 23);
 			this.btnLoadKey.TabIndex = 0;
@@ -288,29 +241,52 @@
 			this.btnLoadKey.UseVisualStyleBackColor = true;
 			this.btnLoadKey.Click += new System.EventHandler(this.btnLoadKey_Click);
 			// 
-			// btnUpdateBinaryBlocks
+			// listviewDevice
 			// 
-			this.btnUpdateBinaryBlocks.Location = new System.Drawing.Point(6, 109);
-			this.btnUpdateBinaryBlocks.Name = "btnUpdateBinaryBlocks";
-			this.btnUpdateBinaryBlocks.Size = new System.Drawing.Size(160, 23);
-			this.btnUpdateBinaryBlocks.TabIndex = 3;
-			this.btnUpdateBinaryBlocks.Text = "Update Binary Blocks";
-			this.btnUpdateBinaryBlocks.UseVisualStyleBackColor = true;
-			this.btnUpdateBinaryBlocks.Click += new System.EventHandler(this.btnUpdateBinaryBlocks_Click);
+			this.listviewDevice.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3});
+			this.listviewDevice.HideSelection = false;
+			this.listviewDevice.Location = new System.Drawing.Point(11, 39);
+			this.listviewDevice.Name = "listviewDevice";
+			this.listviewDevice.Size = new System.Drawing.Size(180, 85);
+			this.listviewDevice.TabIndex = 15;
+			this.listviewDevice.UseCompatibleStateImageBehavior = false;
+			this.listviewDevice.View = System.Windows.Forms.View.Details;
+			this.listviewDevice.SelectedIndexChanged += new System.EventHandler(this.listviewDevice_SelectedIndexChanged);
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "Device";
+			this.columnHeader3.Width = 155;
+			// 
+			// listviewCard
+			// 
+			this.listviewCard.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader4});
+			this.listviewCard.HideSelection = false;
+			this.listviewCard.Location = new System.Drawing.Point(11, 129);
+			this.listviewCard.Name = "listviewCard";
+			this.listviewCard.Size = new System.Drawing.Size(180, 85);
+			this.listviewCard.TabIndex = 16;
+			this.listviewCard.UseCompatibleStateImageBehavior = false;
+			this.listviewCard.View = System.Windows.Forms.View.Details;
+			this.listviewCard.SelectedIndexChanged += new System.EventHandler(this.listviewCard_SelectedIndexChanged);
+			// 
+			// columnHeader4
+			// 
+			this.columnHeader4.Text = "Card";
+			this.columnHeader4.Width = 155;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(710, 590);
+			this.Controls.Add(this.listviewCard);
+			this.Controls.Add(this.listviewDevice);
 			this.Controls.Add(this.groupBox3);
-			this.Controls.Add(this.groupBox2);
-			this.Controls.Add(this.labInfo);
-			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.btnSetData);
 			this.Controls.Add(this.btnGetData);
-			this.Controls.Add(this.btnReadReaderAttr);
-			this.Controls.Add(this.btnSendApdu);
 			this.Controls.Add(this.listLog);
 			this.Controls.Add(this.btnCardListRefresh);
 			this.Controls.Add(this.label1);
@@ -318,11 +294,9 @@
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericBlockNumber)).EndInit();
 			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -335,24 +309,22 @@
 		private System.Windows.Forms.ListView listLog;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
-		private System.Windows.Forms.Button btnSendApdu;
-		private System.Windows.Forms.Button btnReadReaderAttr;
 		private System.Windows.Forms.Button btnGetData;
 		private System.Windows.Forms.Button btnSetData;
-		private System.Windows.Forms.Button btnAuthBlock1;
-		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label labInfo;
-		private System.Windows.Forms.Button btnBlock0ReadBinary;
-		private System.Windows.Forms.Button btnBlock0UpdateBinary;
 		private System.Windows.Forms.TextBox txtUpdateBinary;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Button btnBlockAuth;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown numericBlockNumber;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.Button btnLoadKey;
 		private System.Windows.Forms.Button btnAuthBlock;
 		private System.Windows.Forms.Button btnReadBinaryBlocks;
 		private System.Windows.Forms.Button btnUpdateBinaryBlocks;
+		private System.Windows.Forms.Button btnGetArt;
+		private System.Windows.Forms.Button btnGetStatus;
+		private System.Windows.Forms.ListView listviewDevice;
+		private System.Windows.Forms.ListView listviewCard;
+		private System.Windows.Forms.ColumnHeader columnHeader3;
+		private System.Windows.Forms.ColumnHeader columnHeader4;
 	}
 }

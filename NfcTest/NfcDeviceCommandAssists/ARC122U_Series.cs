@@ -1,18 +1,26 @@
-﻿using NfcTest.PcscSharpAssists;
-using PCSC;
+﻿using PCSC;
 using PCSC.Iso7816;
+using PcscSharpAssists;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NfcTest.DeviceInfo
+namespace NfcDeviceCommandAssists
 {
-	internal class ARC122U_Series : DeviceInfoInterface
+	/// <summary>
+	/// ARC122U Series
+	/// </summary>
+	internal class ARC122U_Series : DeviceCommandInterface
 	{
 		/// <summary>
-		/// Volatile Memory(0x00)만 사용가능한다.
+		/// 외부로 노출시킬 제목
+		/// </summary>
+		public string Title { get; set; } = "ARC122U Series";
+
+		/// <summary>
+		/// ARC122U시리즈는 Volatile Memory(0x00)만 사용가능한다.
 		/// </summary>
 		public KeyStructure KeyStructure { get; set; } = KeyStructure.VolatileMemory;
 
@@ -47,6 +55,8 @@ namespace NfcTest.DeviceInfo
 
 		public ARC122U_Series()
 		{
+
+
 			//키 불러오기 *************
 			this.Apdu_LoadKey 
 				= new CommandApdu(IsoCase.Case3Short, SCardProtocol.Any)

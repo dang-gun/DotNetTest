@@ -1,8 +1,10 @@
-﻿using NfcTest.DeviceInfo;
-using NfcTest.PcscSharpAssists;
+﻿using NfcCardInfo;
+using NfcDeviceCommandAssists;
+using NfcReaderAssists;
 using PCSC;
 using PCSC.Iso7816;
 using PCSC.Monitoring;
+using PcscSharpAssists;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,22 +19,25 @@ namespace NfcTest
 {
 	public partial class Form1 : Form
 	{
+		
+		/// <summary>
+		/// 디바이스와 카드정보를 이용하여 생성한 NFC 리더 지원 개체
+		/// </summary>
 		NfcReader m_nfc;
+		/// <summary>
+		/// (test)디바이스와 카드정보를 이용하여 생성한 NFC 리더 지원 개체
+		/// </summary>
 		NfcReaderTest m_nfcTest;
 
 		IMonitorFactory monitorFactory;
 		ISCardMonitor monitor;
 
-		private const byte MSB = 0x00;
-		private const byte LSB = 0x08;
-
-
 		public Form1()
 		{
 			InitializeComponent();
 
-			//장비를 설정한다.
-			this.m_nfc 
+			//장비를 기본값으로 설정한다.**************
+			this.m_nfc
 				= new NfcReader(
 						new ARC122U_Series()
 						, new Mifare1k());
@@ -41,6 +46,16 @@ namespace NfcTest
 				= new NfcReaderTest(
 						new ARC122U_Series()
 						, new Mifare1k());
+
+
+			//가지고 있는 정보를 UI에 표시한다.
+			//디바이스 ◇◇◇◇
+			listviewDevice.Items.Add(new ARC122U_Series().Title);
+			listviewDevice.Items[0].Selected = true;
+			//카드 ◇◇◇◇
+			listviewCard.Items.Add(new Mifare1k().Title);
+			listviewCard.Items[0].Selected = true;
+
 
 			//인스턴스 생성
 			monitorFactory = MonitorFactory.Instance;
@@ -90,10 +105,132 @@ namespace NfcTest
 			this.listLog.Items.Add(item);
 			this.listLog.Items[this.listLog.Items.Count - 1].EnsureVisible();
 		}
+
+		/// <summary>
+		/// ui의 블록 번호를 바이트로 변환해 리턴한다.
+		/// </summary>
+		/// <returns></returns>
+		public byte BlockNumberGet()
+		{
+			return BitConverter.GetBytes((short)this.numericBlockNumber.Value)[0];
+		}
+		#endregion
+
+		#region UI관련
+		/// <summary>
+		/// 디바이스 변경
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void listviewDevice_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.NfcInfoChanged();
+		}
+		/// <summary>
+		/// 카드 변경
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void listviewCard_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.NfcInfoChanged();
+		}
+		/// <summary>
+		/// UI에 표시된 정보로 디바이스와 카드를 초기화 한다.
+		/// </summary>
+		private void NfcInfoChanged()
+		{
+			if (0 < this.listviewDevice.SelectedItems.Count
+				&& 0 < this.listviewCard.SelectedItems.Count)
+			{
+				//디바이스 판단. ****************
+				string sDeviceTitle = this.listviewDevice.SelectedItems[0].Text;
+				DeviceCommandInterface? selectDeviceCmd = null;
+
+				if (new ARC122U_Series().Title == sDeviceTitle)
+				{
+					selectDeviceCmd = new ARC122U_Series();
+				}
+
+				//카드 판단 *************
+				string sCardTitle = this.listviewCard.SelectedItems[0].Text;
+				CardInfoInterface? selectCardInfo = null;
+
+				if (new Mifare1k().Title == sCardTitle)
+				{
+					selectCardInfo = new Mifare1k();
+				}
+
+				if (null == selectDeviceCmd)
+				{//디바이스 정보 없다.
+					this.LogAdd("NFC 리더기를 선택해 주세요.");
+				}
+				else if (null == selectCardInfo)
+				{
+					this.LogAdd("카드를 선택해 주세요.");
+				}
+				else
+				{//성공
+				 //장비 재설정
+					this.m_nfc
+					= new NfcReader(
+							selectDeviceCmd
+							, selectCardInfo);
+					this.m_nfcTest
+						= new NfcReaderTest(
+								selectDeviceCmd
+								, selectCardInfo);
+				}
+			}
+		}
 		#endregion
 
 		#region Device Test
-		
+
+		private void btnGetStatus_Click(object sender, EventArgs e)
+		{
+			
+
+			if (true == this.m_nfcTest.CardIn())
+			{
+				this.m_nfcTest.GetStatus();
+			}
+			else
+			{
+				this.LogAdd("카드를 읽을 수 없습니다.");
+			}
+		}
+
+		/// <summary>
+		/// 카드 ATR 정보 받기
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnGetArt_Click(object sender, EventArgs e)
+		{
+			if (true == this.m_nfcTest.CardIn())
+			{
+				byte[]? byteAtr
+				= this.m_nfcTest.CardAttributeGet(SCardAttribute.AtrString);
+
+
+				if (null != byteAtr)
+				{
+					string sData = string.Empty;
+					sData = BitConverter.ToString(byteAtr);
+					this.LogAdd(string.Format("ATR: {0}", sData));
+				}
+				else
+				{
+					this.LogAdd(string.Format("ATR: Failure"));
+				}
+			}
+			else
+			{
+				this.LogAdd("카드를 읽을 수 없습니다.");
+			}
+		}
+
 		/// <summary>
 		/// 키 로드 테스트
 		/// </summary>
@@ -128,17 +265,24 @@ namespace NfcTest
 		/// <param name="e"></param>
 		private void btnAuthBlock_Click(object sender, EventArgs e)
 		{
-			byte byteBlockNumber = 0x08;
+			byte byteBlockNumber = this.BlockNumberGet();
 
 			if (true == this.m_nfcTest.CardIn())
 			{
 				if (true == this.m_nfcTest.AuthBlock(byteBlockNumber))
 				{
 					this.LogAdd(String.Format("블록 권한 얻기 성공 : {0:X2}", byteBlockNumber));
+					
+					this.labInfo.Text = "Authentication : success";
+					this.labInfo.BackColor = Color.FromArgb(255, 80, 240, 180);
+					this.LogAdd(string.Format("AUTHENTICATE success."));
 				}
 				else
 				{
 					this.LogAdd(">>> 블록 권한 얻기 실패");
+					this.labInfo.Text = "Authentication : none";
+					this.labInfo.BackColor = Color.FromArgb(255, 160, 0, 184);
+					this.LogAdd(string.Format("- Error - Read Binary failed. - 인증을 다시 받으면 해결 될 수 있음."));
 				}
 			}
 			else
@@ -154,7 +298,7 @@ namespace NfcTest
 		/// <param name="e"></param>
 		private void btnReadBinaryBlocks_Click(object sender, EventArgs e)
 		{
-			byte byteBlockNumber = 0x08;
+			byte byteBlockNumber = this.BlockNumberGet();
 
 			if (true == this.m_nfcTest.CardIn())
 			{
@@ -184,15 +328,20 @@ namespace NfcTest
 		/// <param name="e"></param>
 		private void btnUpdateBinaryBlocks_Click(object sender, EventArgs e)
 		{
-			byte byteBlockNumber = 0x08;
+			byte byteBlockNumber = this.BlockNumberGet();
+			string sData = this.txtUpdateBinary.Text;
+			//a타입 기준 1블럭은 16bytes 이다.(ACR122U 기준)
+			byte[] byteData_Write
+				= Get_Left(ASCIIEncoding.Default.GetBytes(sData), 16);
 
 			if (true == this.m_nfcTest.CardIn())
 			{
-				byte[] byteLoadKeyData = new byte[] { 0xFF, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00 };
-
-				if (true == this.m_nfcTest.UpdateBinaryBlocks(byteBlockNumber, byteLoadKeyData))
+				if (true == this.m_nfcTest.UpdateBinaryBlocks(
+											byteBlockNumber
+											, byteData_Write))
 				{
-					this.LogAdd(String.Format("--- 블록 쓰기({0:X2}) --- 성공", byteBlockNumber));					
+					this.LogAdd(String.Format("--- 블록 쓰기({0:X2}) --- 성공"
+											, byteBlockNumber));					
 				}
 				else
 				{
@@ -263,8 +412,7 @@ namespace NfcTest
 		/// <param name="e"></param>
 		private void btnCardListRefresh_Click(object? sender, EventArgs? e)
 		{
-			string[] sNameList = this.m_nfc.ReaderList();
-			IContextFactory contextFactory = ContextFactory.Instance;
+			string[] sNameList = NfcListInfo.ReaderList();
 
 			//기존 리스트를 지우고
 			comboCardList.Items.Clear();
@@ -277,62 +425,6 @@ namespace NfcTest
 			}
 		}
 
-
-		/// <summary>
-		/// ATR 정보 출력
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void btnReadReaderAttr_Click(object? sender, EventArgs? e)
-		{
-
-			byte[]? byteAtr = this.m_nfc.CardAttributeGet(SCardAttribute.AtrString);
-			string sData = string.Empty;
-
-			if (null != byteAtr)
-			{
-				sData = BitConverter.ToString(byteAtr);
-				this.LogAdd(string.Format("ATR: {0}", sData));
-			}
-			else
-			{
-				this.LogAdd(string.Format("ATR: Failure"));
-			}
-		}
-
-		/// <summary>
-		/// 임의의 Apdu명령을 날려본다
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void btnSendApdu_Click(object sender, EventArgs e)
-		{
-			var contextFactory = ContextFactory.Instance;
-			using (var ctx = contextFactory.Establish(SCardScope.System))
-			{
-				using (var isoReader = new IsoReader(ctx
-											, this.m_nfc.ReaderName
-											, SCardShareMode.Shared
-											, SCardProtocol.Any
-											, false))
-				{
-
-					var apdu = new CommandApdu(IsoCase.Case2Short
-									, isoReader.ActiveProtocol)
-					{
-						CLA = 0x00, // Class
-						Instruction = InstructionCode.GetChallenge,
-						P1 = 0x00, // Parameter 1
-						P2 = 0x00, // Parameter 2
-						Le = 0x08 // Expected length of the returned data
-					};
-
-					var response = isoReader.Transmit(apdu);
-					Console.WriteLine("SW1 SW2 = {0:X2} {1:X2}", response.SW1, response.SW2);
-					// ..
-				}
-			}
-		}
 
 		/// <summary>
 		/// 리더기의 연결된 정보를 읽는다.
@@ -392,119 +484,6 @@ namespace NfcTest
 
 		}
 
-
-		#region Custom Command - Block 0
-
-		/// <summary>
-		/// 권한 요청
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void btnAuthBlock1_Click(object sender, EventArgs e)
-		{
-			using (var context = ContextFactory.Instance.Establish(SCardScope.System))
-			{
-				using (var isoReader 
-						= new IsoReader(context: context
-										, readerName: this.m_nfc.ReaderName
-										, mode: SCardShareMode.Shared
-										, protocol: SCardProtocol.Any
-										, releaseContextOnDispose: false))
-				{
-					var card = new MifareCard(isoReader);
-
-
-
-					var authSuccessful 
-						= card.Authenticate(
-							MSB
-							, LSB
-							, KeyType.KeyA
-							, 0x00);
-					if (false == authSuccessful)
-					{
-						this.LogAdd(string.Format("- Error - AUTHENTICATE failed."));
-					}
-					else
-					{//인증 성공
-						this.labInfo.Text = "Authentication : success";
-						this.labInfo.BackColor = Color.FromArgb(255, 80, 240, 180);
-						this.LogAdd(string.Format("AUTHENTICATE success."));
-					}
-
-
-				}
-			}
-		}
-
-		private void btnBlock0ReadBinary_Click(object sender, EventArgs e)
-		{
-			using (var context = ContextFactory.Instance.Establish(SCardScope.System))
-			{
-				using (var isoReader
-						= new IsoReader(context: context
-										, readerName: this.m_nfc.ReaderName
-										, mode: SCardShareMode.Shared
-										, protocol: SCardProtocol.Any
-										, releaseContextOnDispose: false))
-				{
-					MifareCard card = new MifareCard(isoReader);
-
-					byte[]? result = card.ReadBinary(MSB, LSB, 16);
-					if (null != result)
-					{
-						this.LogAdd(
-							string.Format("Result (before BINARY UPDATE): {0}"
-											, BitConverter.ToString(result)));
-					}
-					else
-					{
-						this.labInfo.Text = "Authentication : none";
-						this.labInfo.BackColor = Color.FromArgb(255, 160, 0, 184);
-						this.LogAdd(string.Format("- Error - Read Binary failed. - 인증을 다시 받으면 해결 될 수 있음."));
-					}
-				}
-			}//end using context
-
-		}
-
-		private void btnBlock0UpdateBinary_Click(object sender, EventArgs e)
-		{
-			string sData = this.txtUpdateBinary.Text;
-			//a타입 기준 1블럭은 16bytes 이다.(ACR122U 기준)
-			byte[] byteData_Write 
-				= Get_Left(ASCIIEncoding.Default.GetBytes(sData), 16);
-
-			
-
-			using (var context = ContextFactory.Instance.Establish(SCardScope.System))
-			{
-				using (var isoReader
-						= new IsoReader(context: context
-										, readerName: this.m_nfc.ReaderName
-										, mode: SCardShareMode.Shared
-										, protocol: SCardProtocol.Any
-										, releaseContextOnDispose: false))
-				{
-					var card = new MifareCard(isoReader);
-
-					var updateSuccessful = card.UpdateBinary(MSB, LSB, byteData_Write);
-
-					if (true == updateSuccessful)
-					{//
-						this.LogAdd(string.Format("Update Binary : success "));
-					}
-					else
-					{
-						this.labInfo.Text = "Authentication : none";
-						this.labInfo.BackColor = Color.FromArgb(255, 160, 0, 184);
-						this.LogAdd(string.Format("- Error - Update Binary : failed. - 인증을 다시 받으면 해결 될 수 있음."));
-					}
-				}
-			}//end using context
-		}
-		#endregion
-
 		/// <summary>
 		/// 왼쪽부터 지정한 길이만큼 데이터를 가지고 온다.
 		/// </summary>
@@ -527,13 +506,6 @@ namespace NfcTest
 
 			return byteCut;
 		}
-
-
-
-
-		#region Block Command
-
-		#endregion
 
 		
 	}

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NfcTest.PcscSharpAssists
+namespace PcscSharpAssists
 {
 	/// <summary>
 	/// PcscSharp 지원용 기능들

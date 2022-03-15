@@ -1,18 +1,23 @@
-﻿using NfcTest.PcscSharpAssists;
-using PCSC.Iso7816;
+﻿using PCSC.Iso7816;
+using PcscSharpAssists;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NfcTest.DeviceInfo
+namespace NfcDeviceCommandAssists
 {
 	/// <summary>
 	/// 코드와 해당 디바이스를 가지고 마지막으로 성공했던 정보를 기록하기위한 인터페이스.
 	/// </summary>
-	public interface DeviceInfoInterface
+	public interface DeviceCommandInterface
 	{
+		/// <summary>
+		/// 외부로 노출시킬 제목
+		/// </summary>
+		public string Title { get; set; }
+
 		/// <summary>
 		/// Key Structure
 		/// </summary>

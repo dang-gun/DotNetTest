@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NfcTest.PcscSharpAssists
+namespace PcscSharpAssists
 {
     public enum KeyStructure : byte
     {
