@@ -106,14 +106,7 @@ namespace NfcTest
 			this.listLog.Items[this.listLog.Items.Count - 1].EnsureVisible();
 		}
 
-		/// <summary>
-		/// ui의 블록 번호를 바이트로 변환해 리턴한다.
-		/// </summary>
-		/// <returns></returns>
-		public byte BlockNumberGet()
-		{
-			return BitConverter.GetBytes((short)this.numericBlockNumber.Value)[0];
-		}
+		
 		#endregion
 
 		#region UI관련
@@ -186,6 +179,15 @@ namespace NfcTest
 		#endregion
 
 		#region Device Test
+
+		/// <summary>
+		/// ui의 블록 번호를 바이트로 변환해 리턴한다.
+		/// </summary>
+		/// <returns></returns>
+		public byte BlockNumberGet()
+		{
+			return BitConverter.GetBytes((short)this.numericBlockNumber.Value)[0];
+		}
 
 		private void btnGetStatus_Click(object sender, EventArgs e)
 		{
@@ -355,6 +357,76 @@ namespace NfcTest
 		}
 		#endregion
 
+		#region Nfc Reader
+
+		private void btnUseBlockSet_Click(object sender, EventArgs e)
+		{
+			//시작 블록번호 변경
+			//this.m_nfc.StartBlockNumberInt = (short)this.numericBlockCount.Value;
+
+			//읽을 블럭 개수
+			int nLength = (int)this.numericBlockCount.Value;
+		}
+
+		/// <summary>
+		/// Nfc Reader - Read Binary
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private async void btnReadBinary_Click(object sender, EventArgs e)
+		{
+			this.LogAdd("-- 카드의 지정된 번호 데이터 읽기 시작");
+			StringBuilder sb = new StringBuilder();
+			foreach (byte itemBlockNum in this.m_nfc.UseDataBlocks)
+			{
+				sb.Append(", " + Convert.ToHexString(new byte[] { itemBlockNum }));
+			}
+			this.LogAdd("지정된 번호 : " + sb.ToString().Substring(1));
+
+			//Task.Run(() => LongCalcAsync(10));
+
+			byte[]? byteReturn = await this.m_nfc.ReadBinary();
+			if (null == byteReturn
+				|| 0 >= byteReturn.Length)
+			{//데이터가 없다.
+				this.LogAdd("-- 카드의 지정된 범위 데이터 읽기 실패");
+			}
+			else
+			{
+				this.LogAdd("-- 카드의 지정된 범위 데이터 읽기 성공");
+				this.LogAdd(Convert.ToHexString(byteReturn));
+				this.LogAdd("--  --  --  --  --  --  --  --  --");
+				this.LogAdd(ASCIIEncoding.Default.GetString(byteReturn));
+				this.LogAdd("--  --  --  --  --  --  --  --  --");
+			}
+		}
+
+
+		private async void btnUpdateBinary_Click(object sender, EventArgs e)
+		{
+			this.LogAdd("-- 카드의 지정된 번호 데이터 쓰기 시작");
+			StringBuilder sb = new StringBuilder();
+			foreach (byte itemBlockNum in this.m_nfc.UseDataBlocks)
+			{
+				sb.Append(", " + Convert.ToHexString(new byte[] { itemBlockNum }));
+			}
+			this.LogAdd("지정된 번호 : " + sb.ToString().Substring(1));
+			//a타입 기준 1블럭은 16bytes 이다.(ACR122U 기준)
+			byte[] byteData_Write
+				= ASCIIEncoding.Default.GetBytes(this.txtNfcReaderData.Text);
+			
+
+			if (false == await this.m_nfc.UpdateBinary(byteData_Write))
+			{
+				this.LogAdd("-- 카드의 지정된 범위 데이터 쓰기 실패");
+			}
+			else
+			{
+				this.LogAdd("-- 카드의 지정된 범위 데이터 쓰기 성공");
+			}
+		}
+
+		#endregion
 
 		private void comboCardList_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -486,6 +558,7 @@ namespace NfcTest
 
 		/// <summary>
 		/// 왼쪽부터 지정한 길이만큼 데이터를 가지고 온다.
+		/// <see href="https://github.com/dang-gun/DGUtility_DotNet/blob/main/DGU_ByteAssist/ByteArray.cs#L144">Get_Left</see>
 		/// </summary>
 		/// <param name="byteA"></param>
 		/// <param name="nLength"></param>

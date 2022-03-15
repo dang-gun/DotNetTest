@@ -40,8 +40,6 @@ namespace NfcReaderAssists
 			base.Dispose();
 		}
 
-		
-
 
 		#region 상태 정보 확인
 		
@@ -100,8 +98,6 @@ namespace NfcReaderAssists
 
 
 		#endregion
-
-		
 
 		/// <summary>
 		/// 인증키 요청
