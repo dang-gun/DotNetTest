@@ -411,7 +411,8 @@ namespace NfcTest
 				sb.Append(", " + Convert.ToHexString(new byte[] { itemBlockNum }));
 			}
 			this.LogAdd("지정된 번호 : " + sb.ToString().Substring(1));
-			//a타입 기준 1블럭은 16bytes 이다.(ACR122U 기준)
+			
+
 			byte[] byteData_Write
 				= ASCIIEncoding.Default.GetBytes(this.txtNfcReaderData.Text);
 			
