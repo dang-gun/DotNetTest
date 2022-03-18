@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.btnImageClear = new System.Windows.Forms.Button();
 			this.labMouseKeyShow = new System.Windows.Forms.Label();
 			this.checkMouseEventEnable = new System.Windows.Forms.CheckBox();
 			this.btnOpenOutFocus = new System.Windows.Forms.Button();
@@ -37,7 +38,6 @@
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.labMove = new System.Windows.Forms.Label();
-			this.btnImageClear = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -48,10 +48,20 @@
 			this.panel1.Controls.Add(this.checkMouseEventEnable);
 			this.panel1.Controls.Add(this.btnOpenOutFocus);
 			this.panel1.Controls.Add(this.button1);
-			this.panel1.Location = new System.Drawing.Point(1, 0);
+			this.panel1.Location = new System.Drawing.Point(527, 0);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(163, 581);
 			this.panel1.TabIndex = 0;
+			// 
+			// btnImageClear
+			// 
+			this.btnImageClear.Location = new System.Drawing.Point(3, 51);
+			this.btnImageClear.Name = "btnImageClear";
+			this.btnImageClear.Size = new System.Drawing.Size(157, 23);
+			this.btnImageClear.TabIndex = 4;
+			this.btnImageClear.Text = "Image Clear";
+			this.btnImageClear.UseVisualStyleBackColor = true;
+			this.btnImageClear.Click += new System.EventHandler(this.btnImageClear_Click);
 			// 
 			// labMouseKeyShow
 			// 
@@ -100,7 +110,7 @@
             this.columnHeader1,
             this.columnHeader2});
 			this.listLog.GridLines = true;
-			this.listLog.Location = new System.Drawing.Point(170, 369);
+			this.listLog.Location = new System.Drawing.Point(2, 366);
 			this.listLog.MultiSelect = false;
 			this.listLog.Name = "listLog";
 			this.listLog.Size = new System.Drawing.Size(519, 212);
@@ -121,7 +131,7 @@
 			// labMove
 			// 
 			this.labMove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labMove.Location = new System.Drawing.Point(170, 3);
+			this.labMove.Location = new System.Drawing.Point(2, 0);
 			this.labMove.Name = "labMove";
 			this.labMove.Size = new System.Drawing.Size(519, 363);
 			this.labMove.TabIndex = 3;
@@ -129,16 +139,6 @@
 			this.labMove.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label1_MouseDown);
 			this.labMove.MouseMove += new System.Windows.Forms.MouseEventHandler(this.label1_MouseMove);
 			this.labMove.MouseUp += new System.Windows.Forms.MouseEventHandler(this.label1_MouseUp);
-			// 
-			// btnImageClear
-			// 
-			this.btnImageClear.Location = new System.Drawing.Point(3, 51);
-			this.btnImageClear.Name = "btnImageClear";
-			this.btnImageClear.Size = new System.Drawing.Size(157, 23);
-			this.btnImageClear.TabIndex = 4;
-			this.btnImageClear.Text = "Image Clear";
-			this.btnImageClear.UseVisualStyleBackColor = true;
-			this.btnImageClear.Click += new System.EventHandler(this.btnImageClear_Click);
 			// 
 			// frmMian
 			// 

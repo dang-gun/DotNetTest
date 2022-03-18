@@ -39,8 +39,6 @@ namespace WinApiOutFocusTest
             InitializeComponent();
 
             this.m_frmOutFocus = new frmOutFocus(this);
-
-
         }
 
         private void frmMian_Load(object sender, EventArgs e)
@@ -144,7 +142,9 @@ namespace WinApiOutFocusTest
             }
         }
 
-
+        /// <summary>
+        /// 드레그 영역 초기화
+        /// </summary>
         private void ImageClear()
         {
             if (this.labMove.Image == null)
