@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnOutfocusWindowDrag = new System.Windows.Forms.Button();
             this.labMouseKeyShow = new System.Windows.Forms.Label();
             this.checkMouseEventEnable = new System.Windows.Forms.CheckBox();
             this.btnOpenOutFocus = new System.Windows.Forms.Button();
@@ -36,12 +37,14 @@
             this.listLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.labMove = new System.Windows.Forms.Label();
+            this.pictureMove = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureMove)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnOutfocusWindowDrag);
             this.panel1.Controls.Add(this.labMouseKeyShow);
             this.panel1.Controls.Add(this.checkMouseEventEnable);
             this.panel1.Controls.Add(this.btnOpenOutFocus);
@@ -50,6 +53,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(163, 581);
             this.panel1.TabIndex = 0;
+            // 
+            // btnOutfocusWindowDrag
+            // 
+            this.btnOutfocusWindowDrag.Location = new System.Drawing.Point(3, 93);
+            this.btnOutfocusWindowDrag.Name = "btnOutfocusWindowDrag";
+            this.btnOutfocusWindowDrag.Size = new System.Drawing.Size(157, 57);
+            this.btnOutfocusWindowDrag.TabIndex = 4;
+            this.btnOutfocusWindowDrag.Text = "OutfocusWindow Drag";
+            this.btnOutfocusWindowDrag.UseVisualStyleBackColor = true;
+            this.btnOutfocusWindowDrag.Click += new System.EventHandler(this.btnOutfocusWindowDrag_Click);
             // 
             // labMouseKeyShow
             // 
@@ -79,13 +92,13 @@
             this.btnOpenOutFocus.Name = "btnOpenOutFocus";
             this.btnOpenOutFocus.Size = new System.Drawing.Size(157, 23);
             this.btnOpenOutFocus.TabIndex = 1;
-            this.btnOpenOutFocus.Text = "Open out focus";
+            this.btnOpenOutFocus.Text = "Open OutfocusWindow";
             this.btnOpenOutFocus.UseVisualStyleBackColor = true;
             this.btnOpenOutFocus.Click += new System.EventHandler(this.btnOpenOutFocus_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(11, 93);
+            this.button1.Location = new System.Drawing.Point(11, 205);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -116,30 +129,31 @@
             this.columnHeader2.Text = "Log";
             this.columnHeader2.Width = 400;
             // 
-            // labMove
+            // pictureMove
             // 
-            this.labMove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labMove.Location = new System.Drawing.Point(170, 3);
-            this.labMove.Name = "labMove";
-            this.labMove.Size = new System.Drawing.Size(519, 363);
-            this.labMove.TabIndex = 3;
-            this.labMove.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labMove.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label1_MouseDown);
-            this.labMove.MouseMove += new System.Windows.Forms.MouseEventHandler(this.label1_MouseMove);
-            this.labMove.MouseUp += new System.Windows.Forms.MouseEventHandler(this.label1_MouseUp);
+            this.pictureMove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.pictureMove.Location = new System.Drawing.Point(167, 0);
+            this.pictureMove.Name = "pictureMove";
+            this.pictureMove.Size = new System.Drawing.Size(522, 363);
+            this.pictureMove.TabIndex = 4;
+            this.pictureMove.TabStop = false;
+            this.pictureMove.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label1_MouseDown);
+            this.pictureMove.MouseMove += new System.Windows.Forms.MouseEventHandler(this.label1_MouseMove);
+            this.pictureMove.MouseUp += new System.Windows.Forms.MouseEventHandler(this.label1_MouseUp);
             // 
             // frmMian
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(692, 581);
-            this.Controls.Add(this.labMove);
+            this.Controls.Add(this.pictureMove);
             this.Controls.Add(this.listLog);
             this.Controls.Add(this.panel1);
             this.Name = "frmMian";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureMove)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -154,6 +168,7 @@
         private Button btnOpenOutFocus;
         private CheckBox checkMouseEventEnable;
         private Label labMouseKeyShow;
-        private Label labMove;
+        private Button btnOutfocusWindowDrag;
+        private PictureBox pictureMove;
     }
 }
