@@ -19,140 +19,70 @@ namespace WinApiOutFocusTest
         /// </summary>
         private frmMian m_frmMian;
 
+
         /// <summary>
-        /// 마우스 다운 여부
+        /// 픽쳐박스 공통화
         /// </summary>
-        public bool m_bMouseDown = false;
-        /// <summary>
-        /// 마지막 포인트
-        /// </summary>
-        private Point m_pointLast = Point.Empty;
-        /// <summary>
-        /// 그리기에 사용될 팬 개체
-        /// </summary>
-        private Pen m_pen = Pens.Black;
+        private PictureAssist m_PA;
 
 
         public frmOutFocus(frmMian frmMian)
         {
             InitializeComponent();
 
+            this.m_PA = new PictureAssist(this, this.pictureDraw);
+            this.m_PA.OnLog += M_PA_OnLog;
+
             this.m_frmMian = frmMian;
         }
 
         private void frmOutFocus_Load(object sender, EventArgs e)
         {
-            this.ImageClear();
+            this.m_PA.ImageClear();
+
+            GlobalStatic.OutFocusWndHandle
+                = GlobalStatic.FindWindow(null, "Win32 Drag Test - Out Focus");
+
+            //플레이어를 찾았을 경우 클릭이벤트를 발생시킬 핸들을 가져옵니다.
+            GlobalStatic.OutFocusWndHandle_Child
+                = GlobalStatic.FindWindowEx(
+                    GlobalStatic.OutFocusWndHandle, IntPtr.Zero
+                    , "WindowsForms10.Window.8.app.0.29e8405_r3_ad1", null);
+
+        }
+
+
+
+        #region 로그
+        private void M_PA_OnLog(string sLog, MouseEventArgs e)
+        {
+            this.LogAdd(sLog);
         }
 
         /// <summary>
-        /// 눌릴 마우스 키<br />
-        /// mouse key to be pressed
-        /// </summary>
-        private MouseButtons MouseDownKey = MouseButtons.None;
-
-
-        private void labMove_MouseDown(object sender, MouseEventArgs e)
+		/// 로그 추가
+		/// </summary>
+		/// <param name="sMessage"></param>
+		private void LogAdd(string sMessage)
         {
-            if (true == this.m_frmMian.MouseEventEnable)
-            {
-                this.MouseDownKey = e.Button;
-                this.m_pointLast = e.Location;
-                this.m_bMouseDown = true;
-                //클릭할때 색변경
-                this.m_pen = GlobalStatic.ColorGet();
-
-                StringBuilder sbLog = new StringBuilder();
-                sbLog.Append("MouseDown Key : ");
-                sbLog.Append(e.Button.ToString());
-                sbLog.Append("(");
-                sbLog.Append(e.X);
-                sbLog.Append(",");
-                sbLog.Append(e.Y);
-                sbLog.Append(")");
-                this.LogAdd(sbLog.ToString());
-            }
-        }
-
-        private void labMove_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (true == this.m_frmMian.MouseEventEnable)
-            {
-                if (true == this.m_bMouseDown)
-                {
-                    if (Point.Empty != m_pointLast)
+            if (true == InvokeRequired)
+            {//다른 쓰래드다.
+                this.Invoke(new Action(
+                    delegate ()
                     {
-                        using (Graphics g = Graphics.FromImage(labMove.Image))
-                        {
-                            g.DrawLine(this.m_pen, this.m_pointLast, e.Location);
-                            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                        }
-
-                        //새로고침
-                        labMove.Invalidate();
-
-                        //마지막 위치 저장
-                        this.m_pointLast = e.Location;
-                    }
-                }
-
-
-                StringBuilder sbLog = new StringBuilder();
-                sbLog.Append("MouseMove Key : ");
-                sbLog.Append(this.MouseDownKey.ToString());
-                sbLog.Append("(");
-                sbLog.Append(e.X);
-                sbLog.Append(",");
-                sbLog.Append(e.Y);
-                sbLog.Append(")");
-                this.LogAdd(sbLog.ToString());
-            }
-        }
-
-        private void labMove_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (true == this.m_frmMian.MouseEventEnable)
-            {
-                this.MouseDownKey = MouseButtons.None;
-                m_bMouseDown = false;
-                m_pointLast = Point.Empty;
-
-                StringBuilder sbLog = new StringBuilder();
-                sbLog.Append("MouseUp Key : ");
-                sbLog.Append(e.Button.ToString());
-                sbLog.Append("(");
-                sbLog.Append(e.X);
-                sbLog.Append(",");
-                sbLog.Append(e.Y);
-                sbLog.Append(")");
-                this.LogAdd(sbLog.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 드레그 영역 초기화
-        /// </summary>
-        private void ImageClear()
-        {
-            if (this.labMove.Image == null)
-            {
-                Bitmap bmp = new Bitmap(this.labMove.Width, this.labMove.Height);
-                this.labMove.Image = bmp;
+                        this.LogAddNotInvoke(sMessage);
+                    }));
             }
             else
-            {
-                //새로 생성
-                Bitmap bmp = new Bitmap(this.labMove.Width, this.labMove.Height);
-                this.labMove.Image = bmp;
-                Invalidate();
+            {//같은 쓰래드다.
+                this.LogAddNotInvoke(sMessage);
             }
         }
-
         /// <summary>
-        /// 로그 추가
+        /// 로그 추가(인보크 없음)
         /// </summary>
         /// <param name="sMessage"></param>
-        private void LogAdd(string sMessage)
+        private void LogAddNotInvoke(string sMessage)
         {
             ListViewItem item = new ListViewItem();
             item.Text = DateTime.Now.ToString("HH:mm:ss");
@@ -161,10 +91,12 @@ namespace WinApiOutFocusTest
             this.listLog.Items.Add(item);
             this.listLog.Items[this.listLog.Items.Count - 1].EnsureVisible();
         }
+        #endregion
+
 
 		private void btnImageClear_Click(object sender, EventArgs e)
 		{
-            this.ImageClear();
+            this.m_PA.ImageClear();
         }
 	}
 }

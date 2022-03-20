@@ -8,172 +8,73 @@ namespace WinApiOutFocusTest
     {
 
         /// <summary>
-        /// 마지막으로 검색된 윈도우 아이디
-        /// </summary>
-        private IntPtr m_hWnd = IntPtr.Zero;
-        public bool MouseEventEnable = true;
-
-        /// <summary>
-        /// 마우스 다운 여부
-        /// </summary>
-        public bool m_bMouseDown = false;
-        /// <summary>
-        /// 마지막 포인트
-        /// </summary>
-        private Point m_pointLast = Point.Empty;
-        /// <summary>
-        /// 그리기에 사용될 팬 개체
-        /// </summary>
-        private Pen m_pen = Pens.Black;
-
-        /// <summary>
-        /// 대상 클래스명
-        /// </summary>
-        private string sClassName = string.Empty;
-
-
-        /// <summary>
         /// 아웃 포커스 창<br />
         /// Out Focus window
         /// </summary>
         private frmOutFocus m_frmOutFocus;
 
-
+        /// <summary>
+        /// 픽쳐박스 공통화
+        /// </summary>
+        private PictureAssist m_PA;
 
 
         public frmMian()
         {
             InitializeComponent();
 
+            this.m_PA = new PictureAssist(this, this.pictureDraw);
+            this.m_PA.OnLog += M_PA_OnLog;
+
             this.m_frmOutFocus = new frmOutFocus(this);
+
+            
         }
 
         private void frmMian_Load(object sender, EventArgs e)
         {
-            this.ImageClear();
+            this.m_PA.ImageClear();
+
+            GlobalStatic.MainWndHandle
+                = GlobalStatic.FindWindow(null, "Win32 Drag Test");
+
+            //플레이어를 찾았을 경우 클릭이벤트를 발생시킬 핸들을 가져옵니다.
+            GlobalStatic.MainWndHandle_Child
+                = GlobalStatic.FindWindowEx(
+                    GlobalStatic.MainWndHandle, IntPtr.Zero
+                    , "WindowsForms10.Window.8.app.0.29e8405_r3_ad1", null);
         }
 
-        private void checkMouseEventEnable_CheckedChanged(object sender, EventArgs e)
+        #region 로그
+        private void M_PA_OnLog(string sLog, MouseEventArgs e)
         {
-            this.MouseEventEnable = this.checkMouseEventEnable.Checked;
+            this.LogAdd(sLog);
         }
-
-        private void btnOpenOutFocus_Click(object sender, EventArgs e)
-        {
-            this.m_frmOutFocus.Show();
-        }
-
 
         /// <summary>
-        /// 눌릴 마우스 키<br />
-        /// mouse key to be pressed
-        /// </summary>
-        private MouseButtons MouseDownKey = MouseButtons.None;
-
-        private void label1_MouseDown(object sender, MouseEventArgs e)
+		/// 로그 추가
+		/// </summary>
+		/// <param name="sMessage"></param>
+		private void LogAdd(string sMessage)
         {
-            if (true == MouseEventEnable)
-            {
-                this.MouseDownKey = e.Button;
-                this.labMouseKeyShow.Text = this.MouseDownKey.ToString();
-                this.m_pointLast = e.Location;
-                this.m_bMouseDown = true;
-                //클릭할때 색변경
-                this.m_pen = GlobalStatic.ColorGet();
-
-                //Log
-                StringBuilder sbLog = new StringBuilder();
-                sbLog.Append("MouseDown Key : ");
-                sbLog.Append(e.Button.ToString());
-                sbLog.Append("(");
-                sbLog.Append(e.X);
-                sbLog.Append(",");
-                sbLog.Append(e.Y);
-                sbLog.Append(")");
-                this.LogAdd(sbLog.ToString());
-            }
-        }
-
-        private void label1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (true == MouseEventEnable)
-            {
-                if (true == this.m_bMouseDown)
-                {
-                    if (Point.Empty != m_pointLast)
+            if (true == InvokeRequired)
+            {//다른 쓰래드다.
+                this.Invoke(new Action(
+                    delegate ()
                     {
-                        using (Graphics g = Graphics.FromImage(labMove.Image))
-                        {
-                            g.DrawLine(this.m_pen, this.m_pointLast, e.Location);
-                            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                        }
-
-                        //새로고침
-                        labMove.Invalidate();
-
-                        //마지막 위치 저장
-                        this.m_pointLast = e.Location;
-                    }
-                }
-
-                StringBuilder sbLog = new StringBuilder();
-                sbLog.Append("MouseMove Key : ");
-                sbLog.Append(this.MouseDownKey.ToString());
-                sbLog.Append("(");
-                sbLog.Append(e.X);
-                sbLog.Append(",");
-                sbLog.Append(e.Y);
-                sbLog.Append(")");
-                this.LogAdd(sbLog.ToString());
-            }
-        }
-
-        private void label1_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (true == MouseEventEnable)
-            {
-                this.MouseDownKey = MouseButtons.None;
-                this.labMouseKeyShow.Text = this.MouseDownKey.ToString();
-                m_bMouseDown = false;
-                m_pointLast = Point.Empty;
-
-                StringBuilder sbLog = new StringBuilder();
-                sbLog.Append("MouseUp Key : ");
-                sbLog.Append(e.Button.ToString());
-                sbLog.Append("(");
-                sbLog.Append(e.X);
-                sbLog.Append(",");
-                sbLog.Append(e.Y);
-                sbLog.Append(")");
-                this.LogAdd(sbLog.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 드레그 영역 초기화
-        /// </summary>
-        private void ImageClear()
-        {
-            if (this.labMove.Image == null)
-            {
-                Bitmap bmp = new Bitmap(this.labMove.Width, this.labMove.Height);
-                this.labMove.Image = bmp;
+                        this.LogAddNotInvoke(sMessage);
+                    }));
             }
             else
-            {
-                //새로 생성
-                Bitmap bmp = new Bitmap(this.labMove.Width, this.labMove.Height);
-                this.labMove.Image = bmp;
-                Invalidate();
+            {//같은 쓰래드다.
+                this.LogAddNotInvoke(sMessage);
             }
         }
-
-        
         /// <summary>
-        /// 로그 추가
+        /// 로그 추가(인보크 없음)
         /// </summary>
         /// <param name="sMessage"></param>
-        private void LogAdd(string sMessage)
+        private void LogAddNotInvoke(string sMessage)
         {
             ListViewItem item = new ListViewItem();
             item.Text = DateTime.Now.ToString("HH:mm:ss");
@@ -182,7 +83,25 @@ namespace WinApiOutFocusTest
             this.listLog.Items.Add(item);
             this.listLog.Items[this.listLog.Items.Count - 1].EnsureVisible();
         }
+        #endregion
 
+        private void btnImageClear_Click(object sender, EventArgs e)
+        {
+            this.m_PA.ImageClear();
+        }
+
+
+
+        private void checkMouseEventEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            this.m_PA.MouseEventEnable = this.checkMouseEventEnable.Checked;
+        }
+
+        private void btnOpenOutFocus_Click(object sender, EventArgs e)
+        {
+            this.m_frmOutFocus.Show();
+            //this.m_hWnd = FindWindow(null, "Win32 Drag Test");
+        }
 
 
         #region SendMessage Constants
@@ -205,18 +124,6 @@ namespace WinApiOutFocusTest
         #endregion SendMessage Constants
 
         /// <summary>
-        /// 지정된 윈도우의 하위 윈도를 찾기.
-        /// https://blog.naver.com/tipsware/221547634772
-        /// </summary>
-        /// <param name="Parent">찾을 부모 창의 핸들</param>
-        /// <param name="Child">몇번째 단계에서 찾을지 한들</param>
-        /// <param name="lpszClass"></param>
-        /// <param name="lpszWindows"></param>
-        /// <returns></returns>
-        [System.Runtime.InteropServices.DllImport("User32.dll")]
-        public static extern IntPtr FindWindowEx(IntPtr Parent, IntPtr Child, string lpszClass, string lpszWindows);
-
-        /// <summary>
         /// 지정한 핸들에 포커스를 준다.
         /// </summary>
         /// <param name="hWnd"></param>
@@ -233,44 +140,109 @@ namespace WinApiOutFocusTest
         /// <param name="lParam"></param>
         /// <returns></returns>
         [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern int PostMessage(IntPtr hWnd, int msg, int wParam, IntPtr lParam);
+        //static extern int PostMessage(IntPtr hWnd, int msg, int wParam, IntPtr lParam);
+        static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
 
         private void DragMove_Focus(
             System.Drawing.Point pointStart
             , System.Drawing.Point pointEnd)
         {
-            if (this.m_hWnd != IntPtr.Zero)
+            if (GlobalStatic.MainWndHandle != IntPtr.Zero
+                && GlobalStatic.MainWndHandle_Child != IntPtr.Zero)
             {
-                //플레이어를 찾았을 경우 클릭이벤트를 발생시킬 핸들을 가져옵니다.
-                //IntPtr hwnd_child = FindWindowEx(this.m_hWnd, IntPtr.Zero, "RenderWindow", "TheRender");
-                IntPtr hwnd_child = FindWindowEx(this.m_hWnd, IntPtr.Zero
-                    , "WindowsForms10.Static.app.0.29e8405_r3_ad1", null);
-                IntPtr lparamStart = new IntPtr(pointStart.X | (pointStart.Y << 16));
-                IntPtr lparamEnd = new IntPtr(pointEnd.X | (pointEnd.Y << 16));
+                
+                int lparamStart = MakeLParam(pointStart);
+                int lparamEnd = MakeLParam(pointEnd);
 
                 //포커스 전달.
-                SetForegroundWindow(this.m_hWnd);
-                Thread.Sleep(1000);
+                SetForegroundWindow(GlobalStatic.MainWndHandle_Child);
+                //Thread.Sleep(1000);
 
-                //플레이어 핸들에 클릭 이벤트를 전달합니다.
-                //SendMessage(hwnd_child, WM_LBUTTONDOWN, 0, lparamStart);
-                //SendMessage(hwnd_child, WM_MOUSEMOVE, 0, lparamEnd);
-                PostMessage(hwnd_child, WM_LBUTTONDOWN, 0, lparamStart);
+                //Mouse left button down
+                //-> Mouse move
+                //-> Mouse left button up
+                PostMessage(GlobalStatic.MainWndHandle_Child
+                                    , WM_LBUTTONDOWN, 0, lparamStart);
+
                 //Thread.Sleep(2000);
-                PostMessage(hwnd_child, WM_MOUSEMOVE, 0, lparamEnd);
+                PostMessage(GlobalStatic.MainWndHandle_Child
+                    , WM_MOUSEMOVE, 0, lparamEnd);
 
-                //int nMax = pointEnd.Y - pointStart.Y;
-
-                //for (int i = 0; i < nMax; ++i)
-                //{
-
-                //}
+                PostMessage(GlobalStatic.MainWndHandle_Child
+                    , WM_LBUTTONUP, 0, lparamEnd);
             }
         }
 
-        private void btnOutfocusWindowDrag_Click(object sender, EventArgs e)
+        private void btnOutFocus_Drag_Click(object sender, EventArgs e)
         {
-            DragMove_Focus(new Point(200, 100), new Point(200, 100));
+            this.DragMove_OutFocus(
+                new Point(100, 100)
+                , new Point(200, 200)
+                , true);
         }
+
+        private void btnOutFocus_Drag2_Click(object sender, EventArgs e)
+        {
+            this.DragMove_OutFocus(
+                new Point(100, 100)
+                , new Point(200, 200)
+                , false);
+        }
+
+        private void DragMove_OutFocus(
+            Point pointStart
+            , Point pointEnd
+            , bool bFocus)
+        {
+            if (GlobalStatic.OutFocusWndHandle != IntPtr.Zero
+                && GlobalStatic.OutFocusWndHandle_Child != IntPtr.Zero)
+            {
+                Thread.Sleep(3000);
+
+                int lparamStart = MakeLParam(pointStart);
+                int lparamEnd = MakeLParam(pointEnd);
+
+                if(true == bFocus)
+                {
+                    //포커스 전달.
+                    SetForegroundWindow(GlobalStatic.OutFocusWndHandle_Child);
+                }
+                
+                //Thread.Sleep(1000);
+
+                //Mouse left button down
+                //-> Mouse move
+                //-> Mouse left button up
+                PostMessage(GlobalStatic.OutFocusWndHandle_Child
+                                    , WM_LBUTTONDOWN, 0, lparamStart);
+
+                //Thread.Sleep(2000);
+                PostMessage(GlobalStatic.OutFocusWndHandle_Child
+                    , WM_MOUSEMOVE, 0, lparamEnd);
+
+                PostMessage(GlobalStatic.OutFocusWndHandle_Child
+                    , WM_LBUTTONUP, 0, lparamEnd);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DragMove_Focus(new Point(100, 100), new Point(200, 200));
+        }
+
+        public static int MakeLParam(int x, int y) => (y << 16) | (x & 0xFFFF);
+        public static int MakeLParam(Point pointStart)
+        {
+            return MakeLParam(pointStart.X, pointStart.Y);
+        }
+
+        private void btnThisDrag_Click(object sender, EventArgs e)
+        {
+            this.DragMove_Focus(
+                new Point(100, 100)
+                , new Point(200, 200));
+        }
+
+        
     }
 }
