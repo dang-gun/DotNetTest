@@ -13,8 +13,13 @@ namespace GameLoopTest
 	{
 		public GameLoopProcInterface GameLoop;
 
-		private Timer timer;
-
+		/// <summary>
+		/// FPS 표시용 타이머
+		/// </summary>
+		private Timer timerFps;
+		/// <summary>
+		/// FPS 기록용 카운터
+		/// </summary>
 		private int FpsCount = 0;
 			
 
@@ -25,9 +30,9 @@ namespace GameLoopTest
 			this.GameLoop = new GameLoopStopwatch(this);
 			this.GameLoop.FPS = 60;
 
-			this.timer = new Timer();
-			this.timer.Interval = 1000;
-			this.timer.Elapsed += Timer_Elapsed;
+			this.timerFps = new Timer();
+			this.timerFps.Interval = 1000;
+			this.timerFps.Elapsed += Timer_Elapsed;
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -41,7 +46,7 @@ namespace GameLoopTest
 		/// </summary>
 		public async Task Start()
 		{
-			this.timer.Start();
+			this.timerFps.Start();
 
 			await this.GameLoop.Start();
 			Console.WriteLine("Game Start!!!");
