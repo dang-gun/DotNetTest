@@ -30,6 +30,8 @@
 		{
 			this.btnParent1List = new System.Windows.Forms.Button();
 			this.btnParent1ListRestore = new System.Windows.Forms.Button();
+			this.btnParent1List2 = new System.Windows.Forms.Button();
+			this.btnParent1ListRestore2 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnParent1List
@@ -52,11 +54,33 @@
 			this.btnParent1ListRestore.UseVisualStyleBackColor = true;
 			this.btnParent1ListRestore.Click += new System.EventHandler(this.btnParent1ListRestore_Click);
 			// 
+			// btnParent1List2
+			// 
+			this.btnParent1List2.Location = new System.Drawing.Point(12, 154);
+			this.btnParent1List2.Name = "btnParent1List2";
+			this.btnParent1List2.Size = new System.Drawing.Size(141, 23);
+			this.btnParent1List2.TabIndex = 2;
+			this.btnParent1List2.Text = "부모1 리스트 생성2";
+			this.btnParent1List2.UseVisualStyleBackColor = true;
+			this.btnParent1List2.Click += new System.EventHandler(this.btnParent1List2_Click);
+			// 
+			// btnParent1ListRestore2
+			// 
+			this.btnParent1ListRestore2.Location = new System.Drawing.Point(12, 183);
+			this.btnParent1ListRestore2.Name = "btnParent1ListRestore2";
+			this.btnParent1ListRestore2.Size = new System.Drawing.Size(141, 23);
+			this.btnParent1ListRestore2.TabIndex = 3;
+			this.btnParent1ListRestore2.Text = "리스트 복원 2";
+			this.btnParent1ListRestore2.UseVisualStyleBackColor = true;
+			this.btnParent1ListRestore2.Click += new System.EventHandler(this.btnParent1ListRestore2_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(545, 450);
+			this.Controls.Add(this.btnParent1ListRestore2);
+			this.Controls.Add(this.btnParent1List2);
 			this.Controls.Add(this.btnParent1ListRestore);
 			this.Controls.Add(this.btnParent1List);
 			this.Name = "Form1";
@@ -69,5 +93,7 @@
 
 		private System.Windows.Forms.Button btnParent1List;
 		private System.Windows.Forms.Button btnParent1ListRestore;
+		private System.Windows.Forms.Button btnParent1List2;
+		private System.Windows.Forms.Button btnParent1ListRestore2;
 	}
 }

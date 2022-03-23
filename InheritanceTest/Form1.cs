@@ -22,10 +22,11 @@ namespace InheritanceTest
 		public Form1()
 		{
 			InitializeComponent();
+			
 		}
 
 
-		#region 부모1 리스트 테스트
+		#region 부모1 리스트 테스트1
 
 		private List<Parent1Base> listParent1 = new List<Parent1Base>();
 
@@ -74,6 +75,45 @@ namespace InheritanceTest
 				++nCount;
 			}
 		}
+
+		#endregion
+
+		#region 부모1 리스트 테스트2
+
+		private List<Parent1Base> listParent2 = new List<Parent1Base>();
+
+		private void btnParent1List2_Click(object sender, EventArgs e)
+		{
+			this.listParent2.Clear();
+
+			for (int i = 1; i < 10; ++i)
+			{
+				Parent1Base newP1;
+
+				newP1 = new Parent1Child2() { Money = 1000 * rand.Next(1, 3) };
+
+				this.listParent2.Add(newP1);
+			}
+		}
+
+		private void btnParent1ListRestore2_Click(object sender, EventArgs e)
+		{
+			int nCount = 0;
+
+			IList<Parent1Child2> listTemp
+				= this.listParent2.CastList<Parent1Base, Parent1Child2>();
+
+			foreach (Parent1Base itemChild in listTemp)
+			{
+				Parent1Child2 temp2 = (Parent1Child2)itemChild;
+				Debug.WriteLine(String.Format("[{0}] Money : {1}"
+								, nCount
+								, temp2.Money));
+
+				++nCount;
+			}
+		}
+
 
 		#endregion
 
