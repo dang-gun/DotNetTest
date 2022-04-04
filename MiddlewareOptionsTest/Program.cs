@@ -17,7 +17,7 @@ builder.Services
 
 TestUtilsSettingModel temp = new TestUtilsSettingModel()
 {
-	Test01 = 1000,
+	Test01 = 10001,
 	Test03 = "Input!!"
 };
 
@@ -32,14 +32,12 @@ TestUtilsSettingModel temp = new TestUtilsSettingModel()
 //		new Action<TestUtilsSettingModel>(temp));
 
 //https://stackoverflow.com/a/45324839/6725889
-//builder.Configuration["TestUtilsSetting:Test01"] = 1000.ToString();
-builder.Configuration["TestUtilsSetting:Test02"] = 1000.ToString();
+builder.Configuration["TestUtilsSetting:Test01"] = 1000.ToString();
 
-	builder.Services.Configure<TestUtilsSettingModel>(options =>
-	{
-		//options.Test03 = "10001";
-		options = temp;
-	});
+builder.Services.Configure<TestUtilsSettingModel>(options =>
+{
+	options.ToCopy(temp);
+});
 //builder.Services.AddScoped<IClient, TestUtilsSettingModel>();
 
 
