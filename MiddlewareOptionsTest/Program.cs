@@ -15,30 +15,35 @@ builder.Services
 	.Configure<TestUtilsSettingModel>(
 		builder.Configuration.GetSection("TestUtilsSetting"));
 
-	TestUtilsSettingModel temp = new TestUtilsSettingModel()
+TestUtilsSettingModel temp = new TestUtilsSettingModel()
+{
+	Test01 = 1000,
+	Test03 = "Input!!"
+};
+
+
+////error
+//builder.Services
+//	.Configure<TestUtilsSettingModel>(temp);
+
+////error
+//builder.Services
+//	.Configure<TestUtilsSettingModel>(
+//		new Action<TestUtilsSettingModel>(temp));
+
+//https://stackoverflow.com/a/45324839/6725889
+//builder.Configuration["TestUtilsSetting:Test01"] = 1000.ToString();
+builder.Configuration["TestUtilsSetting:Test02"] = 1000.ToString();
+
+	builder.Services.Configure<TestUtilsSettingModel>(options =>
 	{
-		Test01 = 1000,
-		Test03 = "Input!!"
-	};
-
-
-	////error
-	//builder.Services
-	//	.Configure<TestUtilsSettingModel>(temp);
-
-	////error
-	//builder.Services
-	//	.Configure<TestUtilsSettingModel>(
-	//		new Action<TestUtilsSettingModel>(temp));
-
-	//https://stackoverflow.com/a/45324839/6725889
-	builder.Configuration["TestUtilsSetting:Test01"] = 1000.ToString();
-
-
+		//options.Test03 = "10001";
+		options = temp;
+	});
+//builder.Services.AddScoped<IClient, TestUtilsSettingModel>();
 
 
 builder.Services.AddScoped<ITestUtils, TestUtils>();
-
 
 var app = builder.Build();
 
