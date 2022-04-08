@@ -1,4 +1,4 @@
-namespace TypeScriptSignalRTest
+namespace SignalRWebpack
 {
 	public class WeatherForecast
 	{

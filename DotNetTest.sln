@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskRunnerTest", "TaskRunne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NpmAspNetTest", "NpmAspNetTest\NpmAspNetTest.csproj", "{75AEC778-4484-4512-94F5-06ABA06A42A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeScriptSignalRTest", "TypeScriptSignalRTest\TypeScriptSignalRTest.csproj", "{6ECD2816-A706-488B-8436-CFF82C392039}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRWebpack", "SignalRWebpack\SignalRWebpack.csproj", "{1F9AA73E-967B-433F-B84E-414705751780}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{75AEC778-4484-4512-94F5-06ABA06A42A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AEC778-4484-4512-94F5-06ABA06A42A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AEC778-4484-4512-94F5-06ABA06A42A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ECD2816-A706-488B-8436-CFF82C392039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ECD2816-A706-488B-8436-CFF82C392039}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ECD2816-A706-488B-8436-CFF82C392039}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ECD2816-A706-488B-8436-CFF82C392039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F9AA73E-967B-433F-B84E-414705751780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F9AA73E-967B-433F-B84E-414705751780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F9AA73E-967B-433F-B84E-414705751780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F9AA73E-967B-433F-B84E-414705751780}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

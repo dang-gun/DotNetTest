@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeScriptSignalRTest.Controllers
+namespace SignalRWebpack.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
