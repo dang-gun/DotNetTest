@@ -33,6 +33,7 @@ module.exports = (env, argv) => {
             new MiniCssExtractPlugin({
                 filename: bundleFileName + '.css'
             })
-        ]
+        ],
+        devtool: "inline-source-map",
     };
 };
