@@ -1,11 +1,13 @@
 import _ from 'lodash';
-import Test01 from "/src/Test01.js";
+import Test01 from "./Test01.js";
 
 function createChild() 
 {
     var element = document.createElement('div');
     let aa = _.join(['Hello', 'Webpack'], ' ');
-    aa = aa + " " + Test01.TestStr();
+
+    let tempTest01 = new Test01();
+    aa = aa + " " + tempTest01.Msg();
     element.innerHTML = aa;
     return element;
 }

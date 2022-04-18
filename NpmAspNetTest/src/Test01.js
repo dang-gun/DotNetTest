@@ -1,6 +1,10 @@
-
-export default function TestStr()
+﻿
+export default function Test01()
 {
-    return " - �׽�Ʈ �Դϴ�!!";
 }
+
+Test01.prototype.Msg = function ()
+{
+    return " - 테스트 입니다!!";
+};
 
