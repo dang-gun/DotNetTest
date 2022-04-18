@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var signalR = require("@microsoft/signalr");
+var Test01 = require("./test01.js");
 require("./css/main.css");
 var divMessages = document.querySelector("#divMessages");
 var tbMessage = document.querySelector("#tbMessage");
@@ -14,6 +15,7 @@ connection.on("messageReceived", function (username, message) {
     m.innerHTML = "<div class=\"message-author\">".concat(username, "</div><div>").concat(message, "</div>");
     divMessages.appendChild(m);
     divMessages.scrollTop = divMessages.scrollHeight;
+    alert(Test01.TestStr());
 });
 connection.start().catch(function (err) { return document.write(err); });
 tbMessage.addEventListener("keyup", function (e) {
