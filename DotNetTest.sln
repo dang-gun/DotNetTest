@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiddlewareOptionsTest", "Mi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRWebpack", "SignalRWebpack\SignalRWebpack.csproj", "{1F9AA73E-967B-433F-B84E-414705751780}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisTest", "RedisTest\RedisTest.csproj", "{64B2A546-D95A-44E9-A82C-CD84A6F93469}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1F9AA73E-967B-433F-B84E-414705751780}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F9AA73E-967B-433F-B84E-414705751780}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F9AA73E-967B-433F-B84E-414705751780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64B2A546-D95A-44E9-A82C-CD84A6F93469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64B2A546-D95A-44E9-A82C-CD84A6F93469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64B2A546-D95A-44E9-A82C-CD84A6F93469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64B2A546-D95A-44E9-A82C-CD84A6F93469}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
