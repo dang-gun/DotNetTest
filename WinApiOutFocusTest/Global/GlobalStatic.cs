@@ -8,15 +8,34 @@ namespace WinApiOutFocusTest.Global
 {
 	public static class GlobalStatic
 	{
-        #region Win32 Find
-        /// <summary>
-        /// 전체윈도우를 검색한다.
-        /// http://blog.naver.com/PostView.nhn?blogId=tipsware&logNo=221005783620
-        /// </summary>
-        /// <param name="lpClassName"></param>
-        /// <param name="lpWindowName"></param>
-        /// <returns></returns>
-        [System.Runtime.InteropServices.DllImport("User32", EntryPoint = "FindWindow")]
+		#region SendMessage Constants
+
+		public const int WM_LBUTTONDOWN = 0x0201;
+		public const int WM_LBUTTONUP = 0x0202;
+		public const int WM_LBUTTONDBLCLK = 0x0203;
+		public const int WM_RBUTTONDOWN = 0x0204;
+		public const int WM_RBUTTONUP = 0x0205;
+		public const int WM_RBUTTONDBLCLK = 0x0206;
+		public const int WM_MOUSEMOVE = 0x0200;
+
+
+
+		const int WM_SYSKEYDOWN = 0x104;
+		const int WM_SYSKEYUP = 0x105;
+
+		const int WM_SETTEXT = 0x000C;
+
+		#endregion
+
+		#region Win32 Find
+		/// <summary>
+		/// 전체윈도우를 검색한다.
+		/// http://blog.naver.com/PostView.nhn?blogId=tipsware&logNo=221005783620
+		/// </summary>
+		/// <param name="lpClassName"></param>
+		/// <param name="lpWindowName"></param>
+		/// <returns></returns>
+		[System.Runtime.InteropServices.DllImport("User32", EntryPoint = "FindWindow")]
 		public static extern IntPtr FindWindow(string? lpClassName, string lpWindowName);
 
 		/// <summary>

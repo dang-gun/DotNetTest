@@ -17,7 +17,7 @@ namespace WinApiOutFocusTest
         /// 전달받은 메인폼<br />
         /// passed window
         /// </summary>
-        private frmMian m_frmMian;
+        private frmMain m_frmMian;
 
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace WinApiOutFocusTest
         private PictureAssist m_PA;
 
 
-        public frmOutFocus(frmMian frmMian)
+        public frmOutFocus(frmMain frmMian)
         {
             InitializeComponent();
 

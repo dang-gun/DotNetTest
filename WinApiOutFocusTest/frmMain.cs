@@ -1,10 +1,11 @@
 
+using System.Diagnostics;
 using System.Text;
 using WinApiOutFocusTest.Global;
 
 namespace WinApiOutFocusTest
 {
-    public partial class frmMian : Form
+    public partial class frmMain : Form
     {
 
         /// <summary>
@@ -19,17 +20,25 @@ namespace WinApiOutFocusTest
         private PictureAssist m_PA;
 
 
-        public frmMian()
+        public frmMain()
         {
             InitializeComponent();
 
             this.m_PA = new PictureAssist(this, this.pictureDraw);
             this.m_PA.OnLog += M_PA_OnLog;
 
+            this.m_PA.OnMouseDownEvent += M_PA_OnMouseDownEvent;
+            this.m_PA.OnMouseMoveEvent += M_PA_OnMouseMoveEvent;
+            this.m_PA.OnMouseUpEvent += M_PA_OnMouseUpEvent;
+
             this.m_frmOutFocus = new frmOutFocus(this);
 
-            
+
         }
+
+
+
+
 
         private void frmMian_Load(object sender, EventArgs e)
         {
@@ -45,7 +54,7 @@ namespace WinApiOutFocusTest
                     , "WindowsForms10.Window.8.app.0.29e8405_r3_ad1", null);
         }
 
-        #region 로그
+        #region log
         private void M_PA_OnLog(string sLog, MouseEventArgs e)
         {
             this.LogAdd(sLog);
@@ -104,24 +113,7 @@ namespace WinApiOutFocusTest
         }
 
 
-        #region SendMessage Constants
 
-        private const int WM_LBUTTONDOWN = 0x0201;
-        private const int WM_LBUTTONUP = 0x0202;
-        private const int WM_LBUTTONDBLCLK = 0x0203;
-        private const int WM_RBUTTONDOWN = 0x0204;
-        private const int WM_RBUTTONUP = 0x0205;
-        private const int WM_RBUTTONDBLCLK = 0x0206;
-        private const int WM_MOUSEMOVE = 0x0200;
-
-
-
-        const int WM_SYSKEYDOWN = 0x104;
-        const int WM_SYSKEYUP = 0x105;
-
-        const int WM_SETTEXT = 0x000C;
-
-        #endregion SendMessage Constants
 
         /// <summary>
         /// 지정한 핸들에 포커스를 준다.
@@ -143,14 +135,22 @@ namespace WinApiOutFocusTest
         //static extern int PostMessage(IntPtr hWnd, int msg, int wParam, IntPtr lParam);
         static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
 
-        private void DragMove_Focus(
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern int SendMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
+
+        /// <summary>
+        /// frmMain Drag
+        /// </summary>
+        /// <param name="pointStart"></param>
+        /// <param name="pointEnd"></param>
+        private void DragMove_frmMain(
             System.Drawing.Point pointStart
             , System.Drawing.Point pointEnd)
         {
             if (GlobalStatic.MainWndHandle != IntPtr.Zero
                 && GlobalStatic.MainWndHandle_Child != IntPtr.Zero)
             {
-                
+
                 int lparamStart = MakeLParam(pointStart);
                 int lparamEnd = MakeLParam(pointEnd);
 
@@ -162,20 +162,20 @@ namespace WinApiOutFocusTest
                 //-> Mouse move
                 //-> Mouse left button up
                 PostMessage(GlobalStatic.MainWndHandle_Child
-                                    , WM_LBUTTONDOWN, 0, lparamStart);
+                                    , GlobalStatic.WM_LBUTTONDOWN, 0, lparamStart);
 
                 //Thread.Sleep(2000);
                 PostMessage(GlobalStatic.MainWndHandle_Child
-                    , WM_MOUSEMOVE, 0, lparamEnd);
+                    , GlobalStatic.WM_MOUSEMOVE, 0, lparamEnd);
 
                 PostMessage(GlobalStatic.MainWndHandle_Child
-                    , WM_LBUTTONUP, 0, lparamEnd);
+                    , GlobalStatic.WM_LBUTTONUP, 0, lparamEnd);
             }
         }
 
         private void btnOutFocus_Drag_Click(object sender, EventArgs e)
         {
-            this.DragMove_OutFocus(
+            this.DragMove_frmOutFocus(
                 new Point(100, 100)
                 , new Point(200, 200)
                 , true);
@@ -183,13 +183,19 @@ namespace WinApiOutFocusTest
 
         private void btnOutFocus_Drag2_Click(object sender, EventArgs e)
         {
-            this.DragMove_OutFocus(
+            this.DragMove_frmOutFocus(
                 new Point(100, 100)
                 , new Point(200, 200)
                 , false);
         }
 
-        private void DragMove_OutFocus(
+        /// <summary>
+        /// frmOutFocus Drag
+        /// </summary>
+        /// <param name="pointStart"></param>
+        /// <param name="pointEnd"></param>
+        /// <param name="bFocus"></param>
+        private void DragMove_frmOutFocus(
             Point pointStart
             , Point pointEnd
             , bool bFocus)
@@ -197,37 +203,40 @@ namespace WinApiOutFocusTest
             if (GlobalStatic.OutFocusWndHandle != IntPtr.Zero
                 && GlobalStatic.OutFocusWndHandle_Child != IntPtr.Zero)
             {
-                Thread.Sleep(3000);
+                //Thread.Sleep(3000);
 
                 int lparamStart = MakeLParam(pointStart);
                 int lparamEnd = MakeLParam(pointEnd);
 
-                if(true == bFocus)
+                if (true == bFocus)
                 {
                     //포커스 전달.
                     SetForegroundWindow(GlobalStatic.OutFocusWndHandle_Child);
                 }
-                
+                else
+                {
+                }
+
                 //Thread.Sleep(1000);
 
                 //Mouse left button down
                 //-> Mouse move
                 //-> Mouse left button up
                 PostMessage(GlobalStatic.OutFocusWndHandle_Child
-                                    , WM_LBUTTONDOWN, 0, lparamStart);
+                                    , GlobalStatic.WM_LBUTTONDOWN, 0, lparamStart);
 
                 //Thread.Sleep(2000);
                 PostMessage(GlobalStatic.OutFocusWndHandle_Child
-                    , WM_MOUSEMOVE, 0, lparamEnd);
+                    , GlobalStatic.WM_MOUSEMOVE, 0, lparamEnd);
 
                 PostMessage(GlobalStatic.OutFocusWndHandle_Child
-                    , WM_LBUTTONUP, 0, lparamEnd);
+                    , GlobalStatic.WM_LBUTTONUP, 0, lparamEnd);
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DragMove_Focus(new Point(100, 100), new Point(200, 200));
+            DragMove_frmMain(new Point(100, 100), new Point(200, 200));
         }
 
         public static int MakeLParam(int x, int y) => (y << 16) | (x & 0xFFFF);
@@ -238,11 +247,101 @@ namespace WinApiOutFocusTest
 
         private void btnThisDrag_Click(object sender, EventArgs e)
         {
-            this.DragMove_Focus(
+            this.DragMove_frmMain(
                 new Point(100, 100)
                 , new Point(200, 200));
         }
 
-        
+        #region pictureDraw Mouse Action
+        private bool _bPictureDraw_MouseDown = false;
+
+        private void M_PA_OnMouseDownEvent(object? sender, MouseEventArgs e, int nWM)
+        {
+            //Debug.WriteLine("Mouse down : {0}, {1}", e.X, e.Y);
+            this._bPictureDraw_MouseDown = true;
+
+            //Mouse left button down
+            int lparamStart = MakeLParam(new Point(e.X, e.Y));
+            SendMessage(GlobalStatic.OutFocusWndHandle_Child
+                                , GlobalStatic.WM_LBUTTONDOWN, 0, lparamStart);
+        }
+
+        private void M_PA_OnMouseMoveEvent(object? sender, MouseEventArgs e, int nWM)
+        {
+            if (true == this._bPictureDraw_MouseDown)
+            {
+                //-> Mouse move
+                //int lparamEnd
+                //	= MakeLParam(
+                //		new Point(
+                //			e.X + this.m_frmOutFocus.Location.X
+                //			, e.Y + this.m_frmOutFocus.Location.Y));
+                //SendMessage(GlobalStatic.OutFocusWndHandle_Child
+                //	, GlobalStatic.WM_MOUSEMOVE, 0, lparamEnd);
+            }
+        }
+
+        private void M_PA_OnMouseUpEvent(object? sender, MouseEventArgs e, int nWM)
+        {
+            //Debug.WriteLine("Mouse up : {0}, {1}", e.X, e.Y);
+            this._bPictureDraw_MouseDown = false;
+
+            //-> Mouse Up
+            //int lparamEnd = MakeLParam(new Point(e.X, e.Y));
+            //SendMessage(GlobalStatic.OutFocusWndHandle_Child
+            //	, GlobalStatic.WM_LBUTTONUP, 0, lparamEnd);
+        }
+        #endregion
+
+        private void btnDragDeley_Click(object sender, EventArgs e)
+        {
+            DragDeley();
+        }
+
+
+        private int nTimerCount = 0;
+        private Point DragDeley_Point = new Point(0, 0);
+
+
+        System.Timers.Timer timer;
+        public void DragDeley()
+        {
+            nTimerCount = 0;
+            DragDeley_Point = new Point(100, 100);
+
+            //Mouse left button down
+            int lparamStart = MakeLParam(DragDeley_Point);
+            SendMessage(GlobalStatic.OutFocusWndHandle_Child
+                                , GlobalStatic.WM_LBUTTONDOWN, 0, lparamStart);
+
+            timer = new System.Timers.Timer();
+            timer.Interval = 10;
+            timer.Elapsed += (a, b) => 
+            {
+                if (nTimerCount < 60)
+                {
+                    DragDeley_Point.Offset(1, 1);
+                    //-> Mouse move
+                    int lparamMove = MakeLParam(DragDeley_Point);
+                    SendMessage(GlobalStatic.OutFocusWndHandle_Child
+                        , GlobalStatic.WM_MOUSEMOVE, 0, lparamMove);
+                }
+                else
+                {
+                    //-> Mouse Up
+                    int lparamEnd = MakeLParam(DragDeley_Point);
+                    SendMessage(GlobalStatic.OutFocusWndHandle_Child
+                        , GlobalStatic.WM_LBUTTONUP, 0, lparamEnd);
+                    timer.Stop();
+                }
+
+                ++nTimerCount;
+            };
+
+            timer.Start();
+
+        }
+
+
     }
 }

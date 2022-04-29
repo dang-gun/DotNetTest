@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,69 @@ namespace WinApiOutFocusTest
             if (null != OnLog)
             {
                 this.OnLog(sLog, e);
+            }
+        }
+
+        /// <summary>
+        /// 마우스 이벤트 전달용
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="nWM"></param>
+        public delegate void MouseDelegate(
+            object? sender
+            , MouseEventArgs e
+            , int nWM );
+
+
+        /// <summary>
+        /// 마우스 다운 이벤트
+        /// </summary>
+        public event MouseDelegate? OnMouseDownEvent;
+        /// <summary>
+        /// 로그를 외부에 알림
+        /// </summary>
+        private void OnMouseDownEventCall(
+            object? sender
+            , MouseEventArgs e)
+        {
+            if (null != OnMouseDownEvent)
+            {
+                this.OnMouseDownEvent(sender, e, GlobalStatic.WM_LBUTTONDOWN);
+            }
+        }
+
+        /// <summary>
+        /// 마우스 무브 이벤트
+        /// </summary>
+        public event MouseDelegate? OnMouseMoveEvent;
+        /// <summary>
+        /// 로그를 외부에 알림
+        /// </summary>
+        private void OnMouseMoveEventCall(
+            object? sender
+            , MouseEventArgs e)
+        {
+            if (null != OnMouseMoveEvent)
+            {
+                this.OnMouseMoveEvent(sender, e, GlobalStatic.WM_MOUSEMOVE);
+            }
+        }
+
+        /// <summary>
+        /// 마우스 업 이벤트
+        /// </summary>
+        public event MouseDelegate? OnMouseUpEvent;
+        /// <summary>
+        /// 로그를 외부에 알림
+        /// </summary>
+        private void OnMouseUpEventCall(
+            object? sender
+            , MouseEventArgs e)
+        {
+            if (null != OnMouseUpEvent)
+            {
+                this.OnMouseUpEvent(sender, e, GlobalStatic.WM_RBUTTONUP);
             }
         }
         #endregion
@@ -81,6 +145,8 @@ namespace WinApiOutFocusTest
 
         private void label1_MouseDown(object? sender, MouseEventArgs e)
         {
+            Debug.WriteLine("{2} - Mouse down : {0}, {1}", e.X, e.Y, this.m_frmParent.Text);
+
             if (true == MouseEventEnable)
             {
                 this.MouseDownKey = e.Button;
@@ -116,10 +182,14 @@ namespace WinApiOutFocusTest
                 sbLog.Append(")");
                 this.OnLogCall(sbLog.ToString(), e);
             }
+
+            this.OnMouseDownEventCall(sender, e);
         }
 
         private void label1_MouseMove(object? sender, MouseEventArgs e)
         {
+            Debug.WriteLine("{2} - Mouse Move : {0}, {1}", e.X, e.Y, this.m_frmParent.Text);
+
             if (true == MouseEventEnable)
             {
                 if (true == this.m_bMouseDown)
@@ -150,10 +220,14 @@ namespace WinApiOutFocusTest
                 sbLog.Append(")");
                 this.OnLogCall(sbLog.ToString(), e);
             }
+
+            this.OnMouseMoveEventCall(sender, e);
         }
 
         private void label1_MouseUp(object? sender, MouseEventArgs e)
         {
+            Debug.WriteLine("{2} - Mouse up : {0}, {1}", e.X, e.Y, this.m_frmParent.Text);
+
             if (true == MouseEventEnable)
             {
                 this.MouseDownKey = MouseButtons.None;
@@ -183,6 +257,8 @@ namespace WinApiOutFocusTest
                 sbLog.Append(")");
                 this.OnLogCall(sbLog.ToString(), e);
             }
+
+            this.OnMouseUpEventCall(sender, e);
         }
         #endregion
 
