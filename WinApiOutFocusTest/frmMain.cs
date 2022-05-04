@@ -189,6 +189,20 @@ namespace WinApiOutFocusTest
                 , false);
         }
 
+        private void btnOutFocus_Drag3_Click(object sender, EventArgs e)
+        {
+            Task task = new Task(new Action(() => { 
+                Thread.Sleep(3000);
+
+                this.DragMove_frmOutFocus(
+                    new Point(100, 100)
+                    , new Point(200, 200)
+                    , true);
+            }));
+
+            task.Start();
+        }
+
         /// <summary>
         /// frmOutFocus Drag
         /// </summary>
@@ -211,7 +225,8 @@ namespace WinApiOutFocusTest
                 if (true == bFocus)
                 {
                     //포커스 전달.
-                    SetForegroundWindow(GlobalStatic.OutFocusWndHandle_Child);
+                    //SetForegroundWindow(GlobalStatic.OutFocusWndHandle_Child);
+                    SetForegroundWindow(GlobalStatic.OutFocusWndHandle);
                 }
                 else
                 {
@@ -299,6 +314,7 @@ namespace WinApiOutFocusTest
         }
 
 
+
         private int nTimerCount = 0;
         private Point DragDeley_Point = new Point(0, 0);
 
@@ -313,6 +329,13 @@ namespace WinApiOutFocusTest
             int lparamStart = MakeLParam(DragDeley_Point);
             SendMessage(GlobalStatic.OutFocusWndHandle_Child
                                 , GlobalStatic.WM_LBUTTONDOWN, 0, lparamStart);
+
+            DragDeley_Point.Offset(1, 1);
+            //-> Mouse move
+            int lparamMove = MakeLParam(DragDeley_Point);
+            SendMessage(GlobalStatic.OutFocusWndHandle_Child
+                , GlobalStatic.WM_MOUSEMOVE, 0, lparamMove);
+
 
             timer = new System.Timers.Timer();
             timer.Interval = 10;
@@ -342,6 +365,6 @@ namespace WinApiOutFocusTest
 
         }
 
-
-    }
+		
+	}
 }

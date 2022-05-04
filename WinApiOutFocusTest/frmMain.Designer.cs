@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.btnDragDeley = new System.Windows.Forms.Button();
 			this.btnOutFocus_Drag2 = new System.Windows.Forms.Button();
 			this.btnOutFocus_Drag = new System.Windows.Forms.Button();
 			this.btnThisDrag = new System.Windows.Forms.Button();
@@ -41,13 +42,14 @@
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.pictureDraw = new System.Windows.Forms.PictureBox();
-			this.btnDragDeley = new System.Windows.Forms.Button();
+			this.btnOutFocus_Drag3 = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureDraw)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.btnOutFocus_Drag3);
 			this.panel1.Controls.Add(this.btnDragDeley);
 			this.panel1.Controls.Add(this.btnOutFocus_Drag2);
 			this.panel1.Controls.Add(this.btnOutFocus_Drag);
@@ -62,9 +64,19 @@
 			this.panel1.Size = new System.Drawing.Size(163, 581);
 			this.panel1.TabIndex = 0;
 			// 
+			// btnDragDeley
+			// 
+			this.btnDragDeley.Location = new System.Drawing.Point(3, 337);
+			this.btnDragDeley.Name = "btnDragDeley";
+			this.btnDragDeley.Size = new System.Drawing.Size(157, 23);
+			this.btnDragDeley.TabIndex = 8;
+			this.btnDragDeley.Text = "Out Focus Drag Deley";
+			this.btnDragDeley.UseVisualStyleBackColor = true;
+			this.btnDragDeley.Click += new System.EventHandler(this.btnDragDeley_Click);
+			// 
 			// btnOutFocus_Drag2
 			// 
-			this.btnOutFocus_Drag2.Location = new System.Drawing.Point(3, 235);
+			this.btnOutFocus_Drag2.Location = new System.Drawing.Point(3, 253);
 			this.btnOutFocus_Drag2.Name = "btnOutFocus_Drag2";
 			this.btnOutFocus_Drag2.Size = new System.Drawing.Size(157, 23);
 			this.btnOutFocus_Drag2.TabIndex = 7;
@@ -74,7 +86,7 @@
 			// 
 			// btnOutFocus_Drag
 			// 
-			this.btnOutFocus_Drag.Location = new System.Drawing.Point(3, 206);
+			this.btnOutFocus_Drag.Location = new System.Drawing.Point(3, 224);
 			this.btnOutFocus_Drag.Name = "btnOutFocus_Drag";
 			this.btnOutFocus_Drag.Size = new System.Drawing.Size(157, 23);
 			this.btnOutFocus_Drag.TabIndex = 6;
@@ -177,15 +189,15 @@
 			this.pictureDraw.TabIndex = 4;
 			this.pictureDraw.TabStop = false;
 			// 
-			// btnDragDeley
+			// btnOutFocus_Drag3
 			// 
-			this.btnDragDeley.Location = new System.Drawing.Point(3, 281);
-			this.btnDragDeley.Name = "btnDragDeley";
-			this.btnDragDeley.Size = new System.Drawing.Size(157, 23);
-			this.btnDragDeley.TabIndex = 8;
-			this.btnDragDeley.Text = "Out Focus DragDeley";
-			this.btnDragDeley.UseVisualStyleBackColor = true;
-			this.btnDragDeley.Click += new System.EventHandler(this.btnDragDeley_Click);
+			this.btnOutFocus_Drag3.Location = new System.Drawing.Point(3, 282);
+			this.btnOutFocus_Drag3.Name = "btnOutFocus_Drag3";
+			this.btnOutFocus_Drag3.Size = new System.Drawing.Size(157, 23);
+			this.btnOutFocus_Drag3.TabIndex = 9;
+			this.btnOutFocus_Drag3.Text = "button2";
+			this.btnOutFocus_Drag3.UseVisualStyleBackColor = true;
+			this.btnOutFocus_Drag3.Click += new System.EventHandler(this.btnOutFocus_Drag3_Click);
 			// 
 			// frmMain
 			// 
@@ -221,5 +233,6 @@
         private Button btnOutFocus_Drag;
         private Button btnOutFocus_Drag2;
 		private Button btnDragDeley;
+		private Button btnOutFocus_Drag3;
 	}
 }

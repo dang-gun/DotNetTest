@@ -188,7 +188,10 @@ namespace WinApiOutFocusTest
 
         private void label1_MouseMove(object? sender, MouseEventArgs e)
         {
-            Debug.WriteLine("{2} - Mouse Move : {0}, {1}", e.X, e.Y, this.m_frmParent.Text);
+            Debug.WriteLine("{4} - Mouse Move({0}, {1}) : {2}, {3}"
+                            , e.Button, this.MouseDownKey
+                            , e.X, e.Y
+                            , this.m_frmParent.Text);
 
             if (true == MouseEventEnable)
             {
@@ -210,15 +213,11 @@ namespace WinApiOutFocusTest
                     }
                 }
 
-                StringBuilder sbLog = new StringBuilder();
-                sbLog.Append("MouseMove Key : ");
-                sbLog.Append(this.MouseDownKey.ToString());
-                sbLog.Append("(");
-                sbLog.Append(e.X);
-                sbLog.Append(",");
-                sbLog.Append(e.Y);
-                sbLog.Append(")");
-                this.OnLogCall(sbLog.ToString(), e);
+                this.OnLogCall(
+                    String.Format("Mouse Move({0}, {1}) : {2}, {3}"
+                                    , e.Button, this.MouseDownKey
+                                    , e.X, e.Y)
+                    , e);
             }
 
             this.OnMouseMoveEventCall(sender, e);
