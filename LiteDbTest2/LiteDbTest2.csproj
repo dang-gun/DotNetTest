@@ -58,7 +58,11 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalStatic.cs" />
-    <Compile Include="LiteDbSupport.cs" />
+    <Compile Include="GraphBarItemModel.cs" />
+    <Compile Include="LiteDbAssist\LiteDbDataSet.cs" />
+    <Compile Include="LiteDbAssist\LiteDbGlobal.cs" />
+    <Compile Include="LiteDbAssist\LiteDbContext.cs" />
+    <Compile Include="MoneyDivisionModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

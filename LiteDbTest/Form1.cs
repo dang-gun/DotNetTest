@@ -61,10 +61,6 @@ namespace LiteDbTest
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            using (LiteDatabase db1 = LiteDbSupport.Context())
-            {
-                
-            }
                 
         }
     }

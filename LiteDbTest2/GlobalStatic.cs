@@ -8,7 +8,7 @@ namespace LiteDbTest2
 {
     public static class GlobalStatic
     {
-        public static LiteDbSupport LiteDb = new LiteDbSupport();
+        
     }
 }
 
