@@ -1,4 +1,6 @@
 using LiteDB;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace LiteDbTest
 {
@@ -7,6 +9,9 @@ namespace LiteDbTest
         public Form1()
         {
             InitializeComponent();
+
+            mciSendString(@"open Routing_BGM_101.wav type waveaudio alias applause1", null, 0, IntPtr.Zero);
+            mciSendString(@"open Routing_BGM_701.wav type waveaudio alias foghorn1", null, 0, IntPtr.Zero);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -63,5 +68,31 @@ namespace LiteDbTest
         {
                 
         }
-    }
+
+
+
+        [DllImport("winmm.dll")]
+        static extern Int32 mciSendString(string command, StringBuilder buffer, int bufferSize, IntPtr hwndCallback);
+
+        
+
+        private void button2_Click(object sender, EventArgs e)
+		{
+
+            
+            mciSendString(@"play applause1", null, 0, IntPtr.Zero);
+
+
+            
+            mciSendString(@"play foghorn1", null, 0, IntPtr.Zero);
+        }
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+            mciSendString(@"stop applause1", null, 0, IntPtr.Zero);
+            mciSendString("seek applause1 to start", null, 0, IntPtr.Zero);
+            mciSendString(@"stop foghorn1", null, 0, IntPtr.Zero);
+            mciSendString("seek foghorn1 to start", null, 0, IntPtr.Zero);
+        }
+	}
 }

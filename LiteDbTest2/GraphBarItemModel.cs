@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +12,12 @@ namespace StochasticScenarioGlobal.Models
 	/// </summary>
 	public class GraphBarItemModel
 	{
-		
-		public long idIndex;
 
 		/// <summary>
 		/// 구분용 고유번호
 		/// <para>생성시 겹치지 않게 처리해야 한다.</para>
 		/// </summary>
-		public long idGraphBarItem { get; set; }
+		public long idGraphBarItem { get; set; } = 0;
 
 		/// <summary>
 		/// 생성할때 사용된 부모(원본)의 고유번호

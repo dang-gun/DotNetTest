@@ -52,19 +52,19 @@ namespace LiteDbAssist
         /// <summary>
         /// 테스트용 모델
         /// </summary>
-		public ILiteCollection<DataModel> DataModel
+		public ILiteCollection<DataModel2> DataModel
 		{
 			get
 			{
                 if (null == DataModel_Ori)
                 {
-                    this.DataModel_Ori = this.Database.GetCollection<DataModel>("DataModel");
+                    this.DataModel_Ori = this.Database.GetCollection<DataModel2>("DataModel2");
                 }
 
                 return this.DataModel_Ori;
             }
 		}
-        ILiteCollection<DataModel> DataModel_Ori;
+        ILiteCollection<DataModel2> DataModel_Ori;
 
         /// <summary>
         /// 테스트용 모델
@@ -88,20 +88,20 @@ namespace LiteDbAssist
 
 
 
-        public ILiteCollection<GraphBarItemModel> GraphBarItemModel
+        public ILiteCollection<ScenarioBarItemModel> ScenarioBarItemModel
         {
             get
             {
-                if (null == GraphBarItemModel_Ori)
+                if (null == ScenarioBarItemModel_Ori)
                 {
-                    this.GraphBarItemModel_Ori 
-                        = this.Database.GetCollection<GraphBarItemModel>("GraphBarItemModel");
+                    this.ScenarioBarItemModel_Ori 
+                        = this.Database.GetCollection<ScenarioBarItemModel>("ScenarioBarItemModel");
                 }
 
-                return this.GraphBarItemModel_Ori;
+                return this.ScenarioBarItemModel_Ori;
             }
         }
-        ILiteCollection<GraphBarItemModel> GraphBarItemModel_Ori;
+        ILiteCollection<ScenarioBarItemModel> ScenarioBarItemModel_Ori;
 
     }
 }

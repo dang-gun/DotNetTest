@@ -25,7 +25,7 @@ namespace LiteDbTest2
             using (LiteDbContext db1 = LiteDbGlobal.Context())
             {
                 // Create your new customer instance
-                DataModel newData = new DataModel();
+                DataModel2 newData = new DataModel2();
                 newData.Name = this.txtName.Text;
 
                 db1.DataModel.Insert(newData);
@@ -39,7 +39,7 @@ namespace LiteDbTest2
                 
 
                 var aaa = db1.DataModel.FindAll();
-                var bbb = aaa.ToList();
+                List<DataModel2> bbb = aaa.ToList();
 
                 MessageBox.Show(aaa.Count().ToString());
             }
@@ -61,13 +61,20 @@ namespace LiteDbTest2
 		{
             using (LiteDbContext db1 = LiteDbGlobal.Context())
             {
-                GraphBarItemModel newData = new GraphBarItemModel();
+                long idIndex = db1.ScenarioBarItemModel.Count() + 1;
+
+                
+                ScenarioBarItemModel newData 
+                    = new ScenarioBarItemModel(new GraphBarItemModel());
+                //newData.idIndex = idIndex;
                 newData.MoneyDivision = new MoneyDivisionModel();
                 newData.MoneyDivision.DivisionList = new List<Tuple<short, long>>();
                 newData.MoneyDivision.DivisionList.Add(new Tuple<short, long>(10, 1000));
                 newData.MoneyDivision.DivisionList.Add(new Tuple<short, long>(20, 2000));
 
-                db1.GraphBarItemModel.Insert(newData);
+                db1.ScenarioBarItemModel.Insert(newData);
+
+                db1.ScenarioBarItemModel.EnsureIndex(x => x.idIndex);
             }
         }
 
@@ -77,10 +84,17 @@ namespace LiteDbTest2
             {
                 //db1.GraphBarItemModel.EnsureIndex(x => x.idIndex);
 
-                var aaa = db1.GraphBarItemModel.FindAll();
-                var bbb = aaa.ToList();
+                ScenarioBarItemModel aaaaa
+                    = db1.ScenarioBarItemModel.Query()
+                        .Where(w => w.idIndex == 1)
+                        .FirstOrDefault();
 
-                MessageBox.Show(aaa.Count().ToString());
+                aaaaa.WinMoney = 10000000;
+                db1.ScenarioBarItemModel.Update(aaaaa);
+
+
+
+                MessageBox.Show(aaaaa.ToString());
             }
         }
 	}

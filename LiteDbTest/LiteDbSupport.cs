@@ -10,7 +10,7 @@ namespace LiteDbTest
 
     public static class LiteDbSupport
     {
-        public LiteDatabase Context()
+        public static LiteDatabase Context()
         {
             return new LiteDatabase(@"MyData.db");
         }
