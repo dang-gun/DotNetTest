@@ -1,9 +1,9 @@
 ﻿using RedisTest.Global;
 using RedisTest.Models;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
+using RedisTest.ModelsDB;
 
-namespace AspNetCore6DefultSetting.Controllers
+namespace RedisTest.Controllers
 {
 	/// <summary>
 	/// 사인 관련(인,아웃,조인)
@@ -20,8 +20,8 @@ namespace AspNetCore6DefultSetting.Controllers
 			//로그인 처리용 모델
 			SignInModel smResult = new SignInModel();
 
-			User? findUser 
-				= GlobalStatic.Users.Where(w=>
+			User? findUser
+				= GlobalStatic.Users.Where(w =>
 						w.SignName == sSignName
 						&& w.PasswordHash == sPassword)
 				.FirstOrDefault();
@@ -30,7 +30,7 @@ namespace AspNetCore6DefultSetting.Controllers
 			{//유저 찾음
 				smResult.Complete = true;
 				smResult.Token
-					= String.Format("{0}▩{1}"
+					= string.Format("{0}▩{1}"
 						, sSignName
 						, Guid.NewGuid().ToString());
 			}

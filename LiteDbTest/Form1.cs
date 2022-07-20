@@ -81,9 +81,6 @@ namespace LiteDbTest
 
             
             mciSendString(@"play applause1", null, 0, IntPtr.Zero);
-
-
-            
             mciSendString(@"play foghorn1", null, 0, IntPtr.Zero);
         }
 

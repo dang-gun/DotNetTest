@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ModelsDB
+namespace RedisTest.ModelsDB
 {
 	public class User
 	{

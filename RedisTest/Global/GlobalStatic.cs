@@ -1,4 +1,4 @@
-﻿using ModelsDB;
+﻿using RedisTest.ModelsDB;
 using StackExchange.Redis;
 
 namespace RedisTest.Global
