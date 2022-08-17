@@ -5,9 +5,16 @@ import "./index.scss";
 function Test()
 {
     return (
-        <div className="Test">
-            테스트 입니다.
+        <div>
+            테스트1 입니다.
+            <div className="Test">
+                테스트1 입니다.
+            </div>
+            <div className="Test">
+                테스트2 입니다.
+            </div>
         </div>
+        
     );
 }
 

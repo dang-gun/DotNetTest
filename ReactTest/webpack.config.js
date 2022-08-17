@@ -13,20 +13,29 @@ const WwwRoot = "wwwroot";
 //웹서버가 사용하는 폴더 위치
 const WwwRootPath = path.resolve(__dirname, WwwRoot);
 //리액트 템플릿 위치
-//const IndexHtmlPath = path.resolve(WwwRootPath, "index.html");
-const IndexHtmlPath = path.resolve(SrcPath, "index.html");
+const React_IndexHtmlPath = path.resolve(SrcPath, "index.html");
 //결과물 출력 폴더 이름
-const OutputFolder = "dist";
+let OutputFolder = "dist";
 //결과물 출력 폴더 이름 - 이미지 폴더
 const OutputFolder_Images = "images";
 //결과물 출력 위치
-const OutputPath = path.resolve(WwwRootPath, OutputFolder);
+let OutputPath = path.resolve(WwwRootPath, OutputFolder);
 //결과물 출력 위치 - 상대 주소
-const OutputPath_relative = path.resolve("/", OutputFolder);
+let OutputPath_relative = path.resolve("/", OutputFolder);
 
 
 module.exports = (env, argv) =>
 {
+    //릴리즈(프로덕션)인지 여부
+    const EnvPrductionIs = argv.mode === "production";
+    if (true === EnvPrductionIs)
+    {
+        //릴리즈 출력 폴더 변경
+        OutputFolder = "production"; 
+        OutputPath = path.resolve(WwwRootPath, OutputFolder);
+        OutputPath_relative = path.resolve("/", OutputFolder);
+    }
+
     return {
         //서비스 모드
         mode: argv.mode === "production" ? "production" : "development",
@@ -42,7 +51,8 @@ module.exports = (env, argv) =>
             //빌드 위치
             path: OutputPath, 
             //웹팩 빌드 후 최종적으로 만들어질 파일
-            filename: "app.js"  
+            filename: "app.js",
+            publicPath: OutputPath
         },
         module: {
             rules: [
@@ -55,30 +65,18 @@ module.exports = (env, argv) =>
                         ]
                 },
                 {
-                    test: /\.css$/i,
+                    test: /\.(sa|sc|c)ss$/i,
                     exclude: /node_module/,
                     use:
                         [
-                            { loader: "style-loader" },
                             {
-                                loader: MiniCssExtractPlugin.loader,
-                                options: { esModule: false }
-                            },
-                            { loader: "css-loader" },
-                            { loader: 'postcss-loader' },
-                        ]
-                },
-                {
-                    test: /\.s[c|a]ss$/,
-                    use:
-                        [
-                            {
+                                //개발 버전에서는 style-loader 사용
                                 loader: MiniCssExtractPlugin.loader,
                                 options: { esModule: false }
                             },
                             { loader: 'css-loader' },
+                            { loader: 'sass-loader' },
                             { loader: 'postcss-loader' },
-                            { loader: 'sass-loader' }
                         ]
                 },
                 {
@@ -102,14 +100,14 @@ module.exports = (env, argv) =>
         },
         plugins: [
             // 빌드한 결과물(예>번들파일)을 HTML에 삽입해주는 플러그인
-            new HtmlWebpackPlugin({ template: IndexHtmlPath }), 
+            new HtmlWebpackPlugin({ template: React_IndexHtmlPath }), 
             // 성공적으로 다시 빌드 한 후 webpack의 output.path에있는 모든 빌드폴더의 내용물 제거
             new CleanWebpackPlugin(),
             // 별도로 css 파일을 만들어서 빌드하는 Plugin
             new MiniCssExtractPlugin({
                 filename: "bundle.css"
             }),
-            new MiniCssExtractPlugin()
+            //new CheckerPlugin()
         ],
         devServer: {
             //서비스 포트

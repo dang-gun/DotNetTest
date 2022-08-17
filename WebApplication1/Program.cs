@@ -18,6 +18,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//기본 페이지
+app.UseDefaultFiles();
+//wwwroot
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
