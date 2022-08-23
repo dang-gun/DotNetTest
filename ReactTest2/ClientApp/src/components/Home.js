@@ -37,9 +37,6 @@ export class Home extends Component
             TestInt: 124,
             sDisplayName: this.sDisplayName,
         }
-
-        console.log("dir : ", __dirname);
-        console.log("dir : ", __dirname);
         
 
         this.reactsTest1
@@ -178,9 +175,15 @@ export class Home extends Component
         console.log(this.reactsTest3);
     }
 
-    TestCall(event, param)
+    async TestCall(event, param)
     {
-        alert("'TestCall'에서 호출됨");
+        
+        alert("'TestCall'에서 호출됨?");
+        const response = await fetch('weatherforecast');
+        //const response = await fetch('https://localhost:7044/api/SuccessCall');
+        //const response = await fetch('/api/SuccessCall');
+        const data = await response.json();
+        console.log(data);
     }
 
 

@@ -119,7 +119,7 @@ module.exports = (env, argv) =>
         ],
         devServer: {
             /** 서비스 포트 */
-            port: "9500",
+            port: "9501",
             /** 출력파일의 위치 */
             static: [path.resolve("./", WwwRoot)],
             /** 브라우저 열지 여부 */

@@ -68,5 +68,9 @@
     </ItemGroup>
   </Target>
 
-  <ProjectExtensions><VisualStudio><UserProperties clientapp_4_1babelrc__JsonSchema="" clientapp_4_1eslintrc__JsonSchema="" clientapp_4package_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions>
+	  <VisualStudio>
+		  <UserProperties clientapp_4_1babelrc__JsonSchema="" clientapp_4_1eslintrc__JsonSchema="" clientapp_4package_1json__JsonSchema="" />
+	  </VisualStudio>
+  </ProjectExtensions>
 </Project>
