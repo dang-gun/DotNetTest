@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ReactTest3.Controllers
 {
@@ -18,7 +18,7 @@ namespace ReactTest3.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet(Name = "GetWeatherForecast")]
+		[HttpGet]
 		public IEnumerable<WeatherForecast> Get()
 		{
 			return Enumerable.Range(1, 5).Select(index => new WeatherForecast

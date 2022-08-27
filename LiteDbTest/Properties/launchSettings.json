@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "LiteDbTest": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:50937;http://localhost:50938"
+    }
+  }
+}
