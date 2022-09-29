@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -125,9 +126,19 @@ module.exports = (env, argv) =>
             })
         ],
         devServer: {
-            https: true,
+            https: {
+                type: "https",
+                options: {
+                    //ca: fs.readFileSync("C:\Users\Kim\AppData\Roaming\ASP.NET\https\reacttest2.pem"),
+                    ca: fs.readFileSync(path.resolve(RootPath,"reacttest2.pem")),
+                    //key: fs.readFileSync("C:\Users\Kim\AppData\Roaming\ASP.NET\https\reacttest2.key"),
+                    key: fs.readFileSync(path.resolve(RootPath, "reacttest2.key")),
+                    passphrase: 'webpack-dev-server',
+                    requestCert: true,
+                }
+            },
             /** 서비스 포트 */
-            port: "9500",
+            port: "44414",
             /** 출력파일의 위치 */
             static: [path.resolve("./", WwwRoot)],
             /** 브라우저 열지 여부 */

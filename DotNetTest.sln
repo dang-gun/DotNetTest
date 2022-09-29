@@ -23,7 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactTest2", "ReactTest2\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactAllTest", "ReactAllTest\ReactAllTest.csproj", "{2866C992-8652-4415-9679-7CE884616F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactTest3", "ReactTest3\ReactTest3.csproj", "{EF6F3EC3-C1AE-4665-8942-986FDF215CCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactTest3", "ReactTest3\ReactTest3.csproj", "{EF6F3EC3-C1AE-4665-8942-986FDF215CCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1", "Project1\Project1.csproj", "{040F5E45-12EE-42FF-B7C1-85FF8CCCE9D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{2C6A846D-0293-4B3A-86EC-EB949B2BD51A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,14 @@ Global
 		{EF6F3EC3-C1AE-4665-8942-986FDF215CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF6F3EC3-C1AE-4665-8942-986FDF215CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF6F3EC3-C1AE-4665-8942-986FDF215CCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040F5E45-12EE-42FF-B7C1-85FF8CCCE9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040F5E45-12EE-42FF-B7C1-85FF8CCCE9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040F5E45-12EE-42FF-B7C1-85FF8CCCE9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040F5E45-12EE-42FF-B7C1-85FF8CCCE9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C6A846D-0293-4B3A-86EC-EB949B2BD51A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C6A846D-0293-4B3A-86EC-EB949B2BD51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C6A846D-0293-4B3A-86EC-EB949B2BD51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C6A846D-0293-4B3A-86EC-EB949B2BD51A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
