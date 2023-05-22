@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="OpenTK.OpenAL" Version="4.7.7" />
+		<PackageReference Include="PCSC" Version="6.1.3" />
+		<PackageReference Include="PCSC.Iso7816" Version="6.1.3" />
+		<PackageReference Include="PCSC.Reactive" Version="6.1.3" />
+		<PackageReference Include="System.IO.Ports" Version="7.0.0" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Include="NfcAssist">
+	    <HintPath>Files\NfcAssist.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+  <ItemGroup>
+    <None Update="Files\CardInfo\CardInfo_Mifare1k.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\DeviceCommand\DeviceCmd_ARC122U_Series.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Test1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\NfcAssist.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Test2.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

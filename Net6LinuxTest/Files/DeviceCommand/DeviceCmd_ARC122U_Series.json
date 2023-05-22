@@ -1,0 +1,48 @@
+{
+	"Title": "ARC122U Series",
+	"KeyStructure": 0,
+	"Apdu_LoadKey": {
+		"isoCase": 2,
+		"protocol": 3,
+		"CLA": 255,
+		"Instruction": 130,
+		"Data": "////////",
+		"P1": 0,
+		"P2": 0,
+	},
+	"Apdu_AuthBlock": {
+		"isoCase": 2,
+		"protocol": 3,
+		"CLA": 255,
+		"Instruction": 134,
+		"Data": "AQAIYAA=",
+		"P1": 0,
+		"P2": 0,
+	},
+	"GeneralAuthBlock": {
+		"Version": 1,
+		"Msb": 0,
+		"Lsb": 8,
+		"KeyType": 96,
+		"KeyNumber": 0
+	},
+	"Apdu_ReadBinaryBlocks": {
+		"isoCase": 1,
+		"protocol": 3,
+		"CLA": 255,
+		"Instruction": 176,
+		"Data": "",
+		"Le": 16,
+		"P1": 0,
+		"P2": 8,
+	},
+	"Apdu_UpdateBinaryBlocks": {
+		"isoCase": 2,
+		"protocol": 3,
+		"CLA": 255,
+		"Instruction": 214,
+		"Data": "Dw4NDAsKCQgHBgUEAwIBAA==",
+		"P1": 0,
+		"P2": 8,
+	}
+}

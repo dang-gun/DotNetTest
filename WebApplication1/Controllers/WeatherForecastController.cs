@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Project1.Controllers
+namespace WebApplication1.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	public class WeatherForecastController : ControllerBase
 	{
 		private static readonly string[] Summaries = new[]
@@ -11,17 +11,23 @@ namespace Project1.Controllers
 		"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 	};
 
-		private readonly ILogger<WeatherForecastController> _logger;
+		private readonly ILogger<WeatherForecastController>? _logger;
 
 		public WeatherForecastController(ILogger<WeatherForecastController> logger)
 		{
 			_logger = logger;
 		}
 
-		[HttpGet]
+		public WeatherForecastController()
+		{
+		}
+
+		[HttpGet(Name = "GetWeatherForecast")]
 		public IEnumerable<WeatherForecast> Get()
 		{
-			var aa = this.ControllerContext;
+			var aaa = this.ControllerContext;
+			var bbb = this.Redirect;
+			var ccc = this.Response;
 
 			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
 			{

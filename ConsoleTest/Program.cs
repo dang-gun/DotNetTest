@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Management;
+using System.Text;
 
 namespace ConsoleTest
 {
