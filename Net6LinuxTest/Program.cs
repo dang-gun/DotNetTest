@@ -17,12 +17,11 @@ public class Playback
 
 	public static void Main()
 	{
-		//AudioContext context = new AudioContext();
+		AudioContext context = new AudioContext();
 
+ 
 		Play2(filename1);
 		Thread.Sleep(2000);
-		//Play2(filename2);
-		//Thread.Sleep(2000);
 
 
 		Console.WriteLine("------- Exit Agent ------");
@@ -70,7 +69,7 @@ public class Playback
 
 	public static async void Play2(string filename)
 	{
-		AudioContext context = new AudioContext();
+		
 
 		int bufferId = AL.GenBuffer();
 		int sourceId = AL.GenSource();

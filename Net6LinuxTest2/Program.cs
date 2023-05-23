@@ -16,7 +16,11 @@ internal class Program
 
 	static void Main(string[] args)
 	{
-		//AudioContext context = new AudioContext();
+		var device = ALC.OpenDevice(null);
+		var context = ALC.CreateContext(device, new ALContextAttributes());
+		ALC.MakeContextCurrent(context);
+
+
 
 		Console.WriteLine("Hello, World!");
 
@@ -36,9 +40,7 @@ internal class Program
 
 	public static void Play(string sFileName)
 	{
-		var device = ALC.OpenDevice(null);
-		var context = ALC.CreateContext(device, new ALContextAttributes());
-		ALC.MakeContextCurrent(context);
+
 
 		int bufferId = AL.GenBuffer();
 		int sourceId = AL.GenSource();
