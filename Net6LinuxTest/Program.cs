@@ -9,22 +9,31 @@ using OpenTK.Audio.OpenAL;
 namespace Net6LinuxTest;
 
 
-public class Playback
+public class Program
 {
-	static readonly string filename1 = Path.Combine(Path.Combine("Files"), @"Test1.wav");
-
-	static readonly string filename2 = Path.Combine(Path.Combine("Files"), @"Test2.wav");
+	/// <summary>
+	/// 테스트 파일 1
+	/// </summary>
+	static readonly string filename1 
+		= Path.Combine(Path.Combine("Files"), @"Test1.wav");
+    /// <summary>
+    /// 테스트 파일 2
+    /// </summary>
+    static readonly string filename2 
+		= Path.Combine(Path.Combine("Files"), @"Test2.wav");
 
 	public static void Main()
 	{
 		AudioContext context = new AudioContext();
 
- 
-		Play2(filename1);
+
+        Play(filename1);
 		Thread.Sleep(2000);
+        Play(filename2);
+        Thread.Sleep(2000);
 
 
-		Console.WriteLine("------- Exit Agent ------");
+        Console.WriteLine("------- Exit Agent ------");
 		Console.WriteLine("------- 'R' 을 눌러 프로그램 종료 ------");
 
 		ConsoleKeyInfo keyinfo;
@@ -34,99 +43,74 @@ public class Playback
 		} while (keyinfo.Key != ConsoleKey.R);
 	}
 
-
-
-	/// <summary>
-	/// https://stackoverflow.com/questions/73511626/how-to-upload-raw-audio-data-to-openal
-	/// </summary>
-	public static void Play()
+	public static async void Play(string sFileName)
 	{
-		//var device = ALC.OpenDevice(null);
-		//var context = ALC.CreateContext(device, new ALContextAttributes());
-		//ALC.MakeContextCurrent(context);
-		//int channels, bits_per_sample, sample_rate;
-		//byte[] soundData = LoadWave(
-		//	File.Open(filename, FileMode.Open),
-		//	out channels,
-		//	out bits_per_sample,
-		//	out sample_rate);
-		//ALFormat format = GetSoundFormat(channels, bits_per_sample);
-
-		//int bufferId = AL.GenBuffer();
-		//AL.BufferData(bufferId, format, soundData, bits_per_sample);
-		//// AL.Listener(ALListener3f.Position, 0.0f, 0.0f, 0.0f);
-		//// AL.Listener(ALListener3f.Velocity, 0.0f, 0.0f, 0.0f);
-
-		//int sourceId = AL.GenSource();
-		//// AL.Source(sourceId, ALSourcef.Gain, 1);
-		//// AL.Source(sourceId, ALSourcef.Pitch, 1);
-		//// AL.Source(sourceId, ALSource3f.Position, 0.0f, 0.0f, 0.0f);
-
-		//AL.Source(sourceId, ALSourcei.Buffer, bufferId);
-		//AL.Source(sourceId, ALSourceb.Looping, true);
-		//AL.SourcePlay(sourceId);
-	}
-
-	public static async void Play2(string filename)
-	{
-		
-
 		int bufferId = AL.GenBuffer();
 		int sourceId = AL.GenSource();
 		int state;
 
 		int channels, bits_per_sample, sample_rate;
+
 		byte[] sound_data = LoadWave(
-			File.Open(filename, FileMode.Open)
+			File.Open(sFileName, FileMode.Open)
 			, out channels
 			, out bits_per_sample
 			, out sample_rate);
-		AL.BufferData(
+
+        // 에러 확인
+        Console.WriteLine(AL.GetError());
+
+		//버퍼 작성
+        AL.BufferData(
 			bufferId
 			, GetSoundFormat(channels, bits_per_sample)
 			, sound_data
 			, sound_data.Length
 			, sample_rate);
 
-		AL.Source(sourceId, ALSourcei.Buffer, bufferId);
-		AL.Source(sourceId, ALSourceb.Looping, true);
-		AL.SourcePlay(sourceId);
+        Console.WriteLine(AL.GetError()); // no error
 
-		Console.Write(string.Format("Playing[{0}][{1}]({2})"
+        //소스 설정
+        AL.Source(sourceId, ALSourcei.Buffer, bufferId);
+        //AL.Source(sourceId, ALSourceb.Looping, true);
+        //소스 재생
+        AL.SourcePlay(sourceId);
+
+		Console.WriteLine(string.Format("Playing[{0}][{1}]({2})"
 									, sourceId
 									, bufferId
-									, filename));
+									, sFileName));
 
 		await Task.Run(() =>
 		{
-			// Query the source to find out when it stops playing.
+			//재생이 끝났는지 확인하는 루프
 			do
 			{
 				Thread.Sleep(250);
 				Console.Write(".");
 				AL.GetSource(sourceId, ALGetSourcei.SourceState, out state);
-			}
-			while ((ALSourceState)state == ALSourceState.Playing);
+            }//재생이 아니라면 루프를 끝낸다.
+            while ((ALSourceState)state == ALSourceState.Playing);
 
-			Console.WriteLine("");
+			Console.WriteLine("Playing end : " + sourceId);
 
-			//AL.SourceStop(source);
-			//AL.DeleteSource(source);
-			//AL.DeleteBuffer(buffer);
+			AL.SourceStop(sourceId);
+			AL.DeleteSource(sourceId);
+			AL.DeleteBuffer(sourceId);
 		});
-
-		//using (AudioContext context = new AudioContext())
-		//{
-
-
-
-
-
-		//}
 	}
 
-	// Loads a wave/riff audio file.
-	public static byte[] LoadWave(Stream stream, out int channels, out int bits, out int rate)
+    /// <summary>
+    /// Loads a wave/riff audio file.
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="channels"></param>
+    /// <param name="bits"></param>
+    /// <param name="rate"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="NotSupportedException"></exception>
+    public static byte[] LoadWave(Stream stream, out int channels, out int bits, out int rate)
 	{
 		if (stream == null)
 			throw new ArgumentNullException("stream");
