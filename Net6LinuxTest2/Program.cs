@@ -27,14 +27,15 @@ internal class Program
 
     static void Main(string[] args)
 	{
-
-        ALDevice device = ALC.OpenDevice(null);
+        
+        
+        
 
         List<string> list = ALC.GetString(AlcGetStringList.AllDevicesSpecifier);
         list.ForEach(f => { Console.WriteLine(f); });
-        
-        
 
+        ALDevice device = ALC.OpenDevice(null);
+        //ALDevice device = ALC.OpenDevice("Generic Software on HP P27h G4(NVIDIA High Definition Audio)");
 
         ALContext context = ALC.CreateContext(device, new ALContextAttributes());
         ALC.MakeContextCurrent(context);
@@ -79,8 +80,6 @@ internal class Program
         // 에러 확인
         Console.WriteLine(AL.GetError());
 
-
-        
 
         //버퍼 작성
         AL.BufferData(
@@ -139,7 +138,11 @@ internal class Program
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="NotSupportedException"></exception>
-    public static byte[] LoadWave(Stream stream, out int channels, out int bits, out int rate)
+    public static byte[] LoadWave(
+        Stream stream
+        , out int channels
+        , out int bits
+        , out int rate)
 	{
 		if (stream == null)
 			throw new ArgumentNullException("stream");

@@ -8,7 +8,10 @@ using OpenTK.Audio.OpenAL;
 
 namespace Net6LinuxTest;
 
-
+/// <summary>
+/// OpenTK.OpenAL 3.3.3
+/// 리눅스에서 안됨
+/// </summary>
 public class Program
 {
 	/// <summary>
