@@ -17,8 +17,8 @@ internal class Program
     /// <summary>
     /// 테스트 파일 1
     /// </summary>
-    static readonly string filename1 
-		= Path.Combine(Path.Combine("Files"), @"Test1.wav");
+    static readonly string filename1
+        = Path.Combine(Path.Combine("Files"), @"Test1.wav");
     /// <summary>
     /// 테스트 파일 2
     /// </summary>
@@ -28,9 +28,6 @@ internal class Program
     static void Main(string[] args)
 	{
         
-        
-        
-
         List<string> list = ALC.GetString(AlcGetStringList.AllDevicesSpecifier);
         list.ForEach(f => { Console.WriteLine(f); });
 
@@ -80,13 +77,16 @@ internal class Program
         // 에러 확인
         Console.WriteLine(AL.GetError());
 
+        //https://stackoverflow.com/questions/10996917/openal-albufferdata-returns-al-invalid-value-even-though-input-variables-look
+        //버퍼 사이즈를 4의 배수로 해야 에러가 나지 않는다.(wav 모노, 스테레오의 경우)
+        int bufferSize = sound_data.Length - sound_data.Length % 4;
 
         //버퍼 작성
         AL.BufferData(
             bufferId
             , GetSoundFormat(channels, bits_per_sample)
             , unmanagedPointer
-            , sound_data.Length
+            , bufferSize
             , sample_rate);
 
 
