@@ -38,7 +38,7 @@ internal class Program
         ALC.MakeContextCurrent(context);
 
 
-        Play(filename1);
+        //Play(filename1);
 		Thread.Sleep(2000);
         Play(filename2);
         Thread.Sleep(2000);
@@ -69,6 +69,11 @@ internal class Program
 			, out channels
 			, out bits_per_sample
 			, out sample_rate);
+
+        //끝에 잡음 들어가는 현상이 있다.
+        //파일의 길이보다 재생시간이 약간 긴것으로 보이므로
+        //뒤에를 잘라서 잡음을 제거한다.
+        sound_data = sound_data.Take(sound_data.Length - (4 * 5000)).ToArray();
 
         //data를 비관리 포인터로 변환
         IntPtr unmanagedPointer = Marshal.AllocHGlobal(sound_data.Length);
