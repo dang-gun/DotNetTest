@@ -25,6 +25,9 @@ const dotenvFiles = [
   paths.dotenv,
 ].filter(Boolean);
 
+console.log("dotenvFiles : ");
+console.log(dotenvFiles);
+
 // Load environment variables from .env* files. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables
 // that have already been set.  Variable expansion is supported in .env files.
@@ -39,6 +42,8 @@ dotenvFiles.forEach(dotenvFile => {
     );
   }
 });
+
+
 
 // We support resolving modules according to `NODE_PATH`.
 // This lets you use absolute paths in imports inside large monorepos:
