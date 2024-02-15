@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GdPicture" Version="14.2.51" />
+    <PackageReference Include="GdPicture.runtimes.windows" Version="14.2.51" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
+    <PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
+      <HintPath>C:\Users\Kim\Downloads\OnBarcode.BarcodeReader.Dotnet\OnBarcode.BarcodeReader.Dotnet\dll\NetStandard2.0\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+    </Reference>
+    <Reference Include="RasterEdge.Imaging.Basic">
+      <HintPath>C:\Users\Kim\Downloads\RasterEdge.DocImageSDK\RasterEdge.DocImageSDK11.7.9(release)\Bin\DotNet Framework4.0\x64\RasterEdge.Imaging.Basic.dll</HintPath>
+    </Reference>
+    <Reference Include="RasterEdge.XImage.BarcodeScanner">
+      <HintPath>C:\Users\Kim\Downloads\RasterEdge.DocImageSDK\RasterEdge.DocImageSDK11.7.9(release)\Bin\DotNet Framework4.0\x64\RasterEdge.XImage.BarcodeScanner.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

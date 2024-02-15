@@ -1,0 +1,20 @@
+﻿<Window x:Class="ZXingCpp_Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZXingCpp_Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid x:Name="gridMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Menu x:Name="menuSetting" Grid.Row="0" >
+            <MenuItem Header="Dev tool" Click="MenuItem_DevTool" />
+            <MenuItem Header="Test Qr" Click="MenuItem_TestQr" />
+        </Menu>
+    </Grid>
+</Window>
