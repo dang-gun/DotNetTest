@@ -35,15 +35,15 @@ public class Client
     }
 }
 
-public class Program
-{
-    static void Main(string[] args)
-    {
-        // 의존성 주입
-        Client client = new Client(new Service1());
-        client.Start();
-    }
-}
+//public class Program
+//{
+//    static void Main(string[] args)
+//    {
+//        // 의존성 주입
+//        Client client = new Client(new Service1());
+//        client.Start();
+//    }
+//}
 
 
 internal class DependencyInjectionTest
