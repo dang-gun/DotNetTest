@@ -1,0 +1,53 @@
+using EntityFrameworkSample.DB.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace WebApplication2
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<ModelsDbContextModel>(options => 
+            {
+                options.UseSqlite("Data Source=Test.db");
+            });
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+
+            app.MapControllers();
+
+            app.Run();
+
+            using (ModelsDbContextModel db1 = new ModelsDbContextModel())
+            {
+                TestOC1? findItem = db1.TestOC1.Where(w => w.idTestOC1 == 1).FirstOrDefault();
+
+                if (findItem != null)
+                {
+
+                }
+            }
+        }
+    }
+}
