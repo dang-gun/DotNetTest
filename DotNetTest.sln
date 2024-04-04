@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{D44EACA8-1F5
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "HookTest", "HookTest\HookTest.esproj", "{62BB446A-1EB5-4DFA-A2E9-EEC685D47638}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfDbContextTest", "EfDbContextTest\EfDbContextTest.csproj", "{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -405,6 +407,26 @@ Global
 		{62BB446A-1EB5-4DFA-A2E9-EEC685D47638}.Release|x86.ActiveCfg = Release|Any CPU
 		{62BB446A-1EB5-4DFA-A2E9-EEC685D47638}.Release|x86.Build.0 = Release|Any CPU
 		{62BB446A-1EB5-4DFA-A2E9-EEC685D47638}.Release|x86.Deploy.0 = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|x64.Build.0 = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Debug|x86.Build.0 = Debug|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|ARM.Build.0 = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|ARM64.Build.0 = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|x64.ActiveCfg = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|x64.Build.0 = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|x86.ActiveCfg = Release|Any CPU
+		{5FF3043C-5921-4686-AFD5-C6C41A5F6F4B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
