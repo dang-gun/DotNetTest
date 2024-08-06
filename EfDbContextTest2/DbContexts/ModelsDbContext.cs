@@ -70,5 +70,25 @@ public class ModelsDbContext: ModelsDbContextModel
             default:
                 break;
         }
+
+
+        DerivedClass<ModelsDbContext> aa = new Models.DerivedClass<ModelsDbContext>();
+
+        
+
+    }
+}
+
+
+public class BaseClass<T>:ModelsDbContextModel
+{
+    public T Value { get; set; }
+}
+
+public class DerivedClass<T> : BaseClass<T>
+{
+    public void DoSomethingWithT(T value)
+    {
+        // T 값을 사용하여 작업 수행
     }
 }

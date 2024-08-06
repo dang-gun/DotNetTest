@@ -18,11 +18,4 @@ public interface DbContextDefaultInfoInterface
     /// DB 연결 문자열
     /// </summary>
     public string DBString { get; set; }
-
-    /// <summary>
-    /// GlobalDb.DBString 데이터가 있는지 확인하고 
-    /// 없으면 미리 저장된 데이터를 GlobalDb.DBString에 넣어 준다.
-    /// <para>이 때 미리 저장된 데이터는 메모리가 될수도 있고, 파일이 될 수도 있다.</para>
-    /// </summary>
-    //public void ReSetting();
 }
